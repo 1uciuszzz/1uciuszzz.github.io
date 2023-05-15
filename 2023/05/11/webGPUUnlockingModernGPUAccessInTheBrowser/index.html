@@ -68,13 +68,13 @@
 <blockquote>
 <p>It’s a night and day difference when we move the same algorithm to a compute shader, which is seen in the video after 20 seconds. The performance improves dramatically with the page now running at a smooth 60 FPS and there’s still a lot of performance headroom for other effects. In addition the page’s main JavaScript loop is completely freed up for other tasks, ensuring that interactions with the page stay responsive.</p>
 </blockquote>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VDEvx4huikU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/VDEvx4huikU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <p>WebGPU还使复杂的视觉效果成为可能。在下面的示例中，使用流行的<a target="_blank" rel="noopener" href="https://www.babylonjs.com/">Babylon.js</a>库创建，海洋表面完全在GPU上模拟。逼真的动态是通过将许多独立的波添加到彼此上来创建的。但是直接模拟每个波将是太昂贵了。</p>
 <blockquote>
 <p>WebGPU also enables complex visual effects that were not practical before. In the following example, created in the popular Babylon.js library, the ocean surface is being simulated entirely on the GPU. The realistic dynamics are created from many independent waves being added to each other. But simulating each wave directly would be too expensive.</p>
 </blockquote>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/uH9cB5-D2L0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/uH9cB5-D2L0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <p>这就是为什么演示使用了一种称为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Fast_Fourier_transform">快速傅里叶变换</a>的高级算法。它不是将所有的波都表示为复杂的位置数据，而是使用谱数据，这样就可以更有效地执行计算。然后，每一帧都使用傅里叶变换将谱数据转换为表示波高的位置数据。</p>
 <blockquote>
@@ -134,7 +134,7 @@
 <blockquote>
 <p>To demonstrate what a dramatic difference a feature like render bundles can make, here’s another demo from Babylon.js. Their WebGL 2 renderer can execute all the JavaScript calls to render this art gallery scene about 500 times a second. Which is pretty good!</p>
 </blockquote>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qTe-ukinOpI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/qTe-ukinOpI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 <p>然而，他们的WebGPU渲染器启用了一个他们称之为“快照渲染”的功能。这个功能建立在WebGPU的渲染包之上，允许同一个场景提交的速度提高了10倍以上。这种显著降低的开销允许WebGPU渲染更复杂的场景，同时还允许应用程序在JavaScript中并行执行更多的操作。</p>
 <blockquote>
