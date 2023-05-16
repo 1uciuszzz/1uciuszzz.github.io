@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>WebAssembly:A new development paradigm for the web - lucius&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="lucius&#039;s blog"><meta name="msapplication-TileImage" content="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lucius&#039;s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="192x192" href="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="description" content="介绍WebAssembly以及它如何为Web开发带来新的范式。"><meta property="og:type" content="blog"><meta property="og:title" content="WebAssembly:A new development paradigm for the web"><meta property="og:url" content="https://1uciuszzz.github.io/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/"><meta property="og:site_name" content="lucius&#039;s blog"><meta property="og:description" content="介绍WebAssembly以及它如何为Web开发带来新的范式。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4i6jdh5p77s0.webp"><meta property="article:published_time" content="2023-05-16T01:28:54.000Z"><meta property="article:modified_time" content="2023-05-16T01:28:54.000Z"><meta property="article:author" content="1uciuszzz"><meta property="article:tag" content="webAssembly"><meta property="article:tag" content="web"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4i6jdh5p77s0.webp"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://1uciuszzz.github.io/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/"},"headline":"WebAssembly:A new development paradigm for the web","image":["https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4i6jdh5p77s0.webp"],"datePublished":"2023-05-16T01:28:54.000Z","dateModified":"2023-05-16T01:28:54.000Z","author":{"@type":"Person","name":"1uciuszzz"},"publisher":{"@type":"Organization","name":"lucius's blog","logo":{"@type":"ImageObject","url":"https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/android-chrome-192x192.36lnp86ipoq0.webp"}},"description":"介绍WebAssembly以及它如何为Web开发带来新的范式。"}</script><link rel="canonical" href="https://1uciuszzz.github.io/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/"><link rel="icon" href="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/android-chrome-192x192.36lnp86ipoq0.webp"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600&amp;family=Roboto+Mono"><link rel="stylesheet" href="/css/cyberpunk.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4i6jdh5p77s0.webp" alt="WebAssembly:A new development paradigm for the web"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-05-16T01:28:54.000Z" title="2023/5/16 09:28:54">2023-05-16</time>发表</span><span class="level-item"><time dateTime="2023-05-16T01:28:54.000Z" title="2023/5/16 09:28:54">2023-05-16</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/webAssembly/">webAssembly</a></span><span class="level-item">37 分钟读完 (大约5613个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">WebAssembly:A new development paradigm for the web</h1><div class="content"><p>介绍WebAssembly以及它如何为Web开发带来新的范式。</p>
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/RcHER-3gFXI?list=PLOU2XLYxmsIJGxIV8Lt8gF_79Z334LQ6h" title="WebAssembly: A new development paradigm for the web" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<span id="more"></span>
+
+<h2 id="WebAssembly介绍"><a href="#WebAssembly介绍" class="headerlink" title="WebAssembly介绍"></a>WebAssembly介绍</h2><p>首先介绍一下WebAssembly到底是什么，以及为什么要使用它。</p>
+<p>WebAssembly是一种用于Web的低级二进制格式，它是从其他语言编译而来的，以提供最大化的性能，并且旨在增强JavaScript不足的地方。</p>
+<p>为什么要使用WebAssembly？</p>
+<p>有三个主要优点：</p>
+<ol>
+<li>提供了更可靠和最大化的性能。</li>
+<li>实现了很好的可移植性，因为您可以从其他语言编译，从而使您可以跨部署共享代码。</li>
+<li>为开发人员提供了更大的灵活性，现在开发人员可以使用JavaScript以外的语言编写Web。</li>
+</ol>
+<p>也许最重要的是，它现在已经完全在所有主要浏览器中运行，因此您可以可靠地接触所有用户。</p>
+<p>他们介绍了四种语言，以展示它们如何进入Web以及如何自己入门。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.46uekq18q1m0.webp"></p>
+<p>值得注意的是，还有很多其他语言也正在添加对WebAssembly的支持。</p>
+<h2 id="C-WebAssembly"><a href="#C-WebAssembly" class="headerlink" title="C++ WebAssembly"></a>C++ WebAssembly</h2><p>WebAssembly改变Web的最早领域之一是通过在Web上启用大型应用程序（例如AutoCAD，Figma和最近的Photoshop）来实现的。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.3yvrxwneonq0.webp"></p>
+<p>这些是性能要求高的应用程序，具有大型代码库，通常是从其他平台移植而来的。</p>
+<p>AutoCAD带来了他们的代码库，该代码库始于40多年前，早于第一个浏览器。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.77neg94ezeg0.webp"></p>
+<p>现在，该原始代码库的某些部分可以通过简单的链接直接访问。</p>
+<p>Figma从一开始就对WebAssembly进行了大胆的赌注，并使用C++编写了其引擎，以实现最大化的性能。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4ilb2vn8ow00.webp"></p>
+<p>Photoshop将其复杂的应用程序带到Web，实现了易于跨平台共享，包括评论和编辑。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.2mma3brcym00.webp"></p>
+<p>他们还将很快使用Web ML进行优化的机器学习操作。</p>
+<p>在过去的一年中，我们继续看到更多这些令人难以置信的高级应用程序，利用Wasm来到Web。</p>
+<p>Snapchat希望扩大其受众，同时使用单个代码库来覆盖所有平台。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.qwlunukzyyo.webp"></p>
+<p>他们决定C ++将为他们提供所需的性能和可移植性。</p>
+<p>通过利用WebAssembly，他们可以直接在浏览器中交付整个应用程序，跨所有操作系统。</p>
+<p>Snap还在通过WebAssembly投资将其惊人的相机套件带到Web，您可以在web.snapchat.com上自己尝试。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.35uog9sgfvi0.webp"></p>
+<p>在这里，他们再次重用了跨平台共享的C++实现。</p>
+<p>他们使用Emscripten，包括其Embind绑定系统，以及OpenGL到WebGL的转换。</p>
+<p>他们还使用TensorFlow.js进行ML推理，Web Workers进行屏幕外渲染，以及使用Chrome分析工具进行性能优化。</p>
+<p>WordPress做了一些非常令人难以置信的事情，实际上设法使WordPress服务器环境构建直接在浏览器中运行。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.11pccdgtmys0.webp"></p>
+<p>这依赖于将PHP解释器本身和SQLite编译为WebAssembly。</p>
+<p>有了这个，用户可以直接在浏览器中尝试WordPress，而无需进行任何设置。</p>
+<p>这对于入门，启用交互式教程以及最终支持后端的轻松发布都具有惊人的影响。</p>
+<p>通过在Wasm上运行，他们现在还可以部署到非浏览器环境，包括Node.js或其他Wasm服务器环境。</p>
+<p>所有这些示例都由Emscripten工具链提供支持。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.3246dwf79ou0.webp"></p>
+<p>Emscripten将帮助编译您的C++代码，但也有助于移植针对POSIX API构建的代码，并且甚至将OpenGL调用转换为WebGL。</p>
+<p>他们还在实现WebAssembly调试方面做出了非常大的改进。</p>
+<p>有了此支持，您现在可以在DevTools中看到C++代码，设置断点，逐步执行代码，甚至查看变量的运行时值。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.gcjaknfle7c.webp"></p>
+<p>您可能在想，我没有编写C++或构建大型跨平台应用程序，而是正在进行Web开发。</p>
+<p>这就是WebAssembly库将改变您生活的地方。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.77jnr3j6kmg0.webp"></p>
+<p>这些库包括OpenCV用于图像分析，TensorFlow.js用于ML，Skia用于图形，SQLite用于数据库，FFmpeg用于视频操作等等。</p>
+<p>这些示例都公开了JavaScript API。</p>
+<p>您甚至可能不知道它们在幕后由WebAssembly提供支持，它们的性能非常好。</p>
+<p>让我们以Telegram的令人难以置信的Web应用程序为例。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.6pu7c643veo0.webp"></p>
+<p>Telegram是传统的Web应用程序，其中大部分功能都是用JavaScript构建的。</p>
+<p>但是，他们需要一些额外的功能，这些功能可以在WebAssembly中找到。</p>
+<p>具体而言，他们使用RLottie渲染器进行动画贴纸，Opus Recorder进行语音录制和解码，fastTextWeb进行语言检测，以及Webp-hero进行Safari中的Webp支持。</p>
+<p>实际上，当查看MPM时，有1500个WebAssembly包。</p>
+<p>如果您是任何语言的库作者，并且希望将库带到Web，那么现在就是您的时代。</p>
+<p>那么，既然我们已经介绍了C++，让我们跳到Swift。</p>
+<h2 id="Swift-WebAssembly"><a href="#Swift-WebAssembly" class="headerlink" title="Swift WebAssembly"></a>Swift WebAssembly</h2><p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.6qo8h0rrch40.webp"></p>
+<p>Swift WebAssembly已经可以编译一段时间了。</p>
+<p>但是，直到工具链和生态系统成熟到可以在生产中使用的程度，这才是真正可用的。</p>
+<p>在生产中运行Swift WebAssembly的应用程序之一，即将进入Web的GoodNotes。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.lptjq5o911s.webp"></p>
+<p>他们在创建了一个拥有令人难以置信的功能的iOS应用程序的十年中进行了投资，拥有4.8星的评级。</p>
+<p>他们决定是时候将他们的应用程序扩展到非iOS用户了。</p>
+<p>而不是必须进行一次令人难以置信的代码重写，而且还必须进行单独的维护，他们决定通过WebAssembly重用他们的Swift投资。</p>
+<p>这意味着他们十年的工作可以重用，同时最大限度地减少维护成本。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.6ajsfwmr9s00.webp"></p>
+<p>他们说的最喜欢的事情之一是“我们的iOS开发人员每天都会为我们的Swift代码库做出一些新的贡献。我们的Web应用程序也会受益于此。”</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.2f4aihnou3y8.webp"></p>
+<p>就其技术堆栈而言，他们正在利用Swift on WebAssembly，React作为其UI框架，以及PWA进行可安装性。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.64zeyvowqas0.webp"></p>
+<p>他们在React中做了周围的UI，并且有一个连接到Swift引擎的中央画布。</p>
+<p>例如，当用户点击“添加页面”之类的内容时，它会从React中的单击处理程序调用到Swift代码库中，以添加页面，然后使其准备好输入。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.302buvzjv7m0.webp"></p>
+<p>他们使用的工具链称为SwiftWasm。</p>
+<p>您可以在swiftwasm.org上开始使用它。</p>
+<p>该工具链包括JavaScript kit，它使您的Swift代码可以通过绑定与JavaScript交互，并转换类型和对象。</p>
+<p>它还提供了Carton，它为类似于webpack的东西提供了Swift替代方案。</p>
+<p>它使您可以轻松地捆绑和部署应用程序，同时还将您的代码发送到其他平台。</p>
+<p>与任何内容一样，都有一些开发人员应该知道的限制。</p>
+<p>我想明确一点，这不是一个神奇的按钮，可以使您的Swift应用程序直接在Web上运行。</p>
+<p>虽然它比重写快得多，但它并不是零工作量。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.1rml1sdezpkw.webp"></p>
+<p>Swift代码和SwiftUI应该运行良好。</p>
+<p>但是，存储，UI kit，网络和文件之类的东西需要使用Web替代方案。</p>
+<p>尽管如此，如果您是希望扩大市场的Swift开发人员，那么这就是您的时刻。</p>
+<h2 id="WebAssembly标准本身的进展情况"><a href="#WebAssembly标准本身的进展情况" class="headerlink" title="WebAssembly标准本身的进展情况"></a>WebAssembly标准本身的进展情况</h2><p>那么，现在我想从任何特定的语言中退后一步，并更新一下WebAssembly标准本身的进展情况。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.2rsa1dyk79k0.webp"></p>
+<p>在过去，曾讨论过WebAssembly线程和SIMD如何为性能敏感的工作负载提供10倍或更高的改进。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.18wljshdoxcw.webp"></p>
+<p>他们正在继续扩展更多SIMD指令，以进一步最大化性能。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.ueu5ujmyphc.webp"></p>
+<p>TailCalls提案是功能编程语言的关键优化，可实现更好地支持使用协程的C++程序。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/WebAssembly/memory64">Memory64</a>提案使应用程序能够引用超过4GB的内存，更容易移植64位体系结构的代码。</p>
+<p>最后，<a target="_blank" rel="noopener" href="https://v8.dev/blog/jspi">JavaScript Promise Integration API</a>使同步代码可以访问异步API，而无需进行大量的代码大小或性能开销。</p>
+<p>如果您要制作假设同步环境的代码与Web一起工作的代码，这是一个大问题。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.29imyjjj3dlw.webp"></p>
+<p>您可能还记得在去年的Google I&#x2F;O上，计划将Java，Kotlin和Dart等新语言带到Web的计划。</p>
+<p>在过去的一年中，WebAssembly社区一直在忙于实现这一目标。</p>
+<p>因此，让我们看看我们构建了什么以及这种新技术对Web和本机移动平台的开发人员意味着什么。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.6x98kq4ar680.webp"></p>
+<p>WebAssembly在使用C和C++的开发人员中获得了成功，以及围绕Rust的不断增长的社区。</p>
+<p>在这些语言中，开发人员负责在应用程序完成使用后释放内存中的对象，从某种意义上说，这类语言是WebAssembly标准的主要重点，我们称之为WebAssembly MVP，部分原因是因为这些语言是许多大型桌面应用程序所编写的语言，也因为在开发WebAssembly标准时，这些语言有一些更简单的要求。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.2emo0f0dnc4k.webp"></p>
+<p>另一类语言代表开发人员管理内存。</p>
+<p>语言自己的运行时会自动查找并释放应用程序不再使用的内存。</p>
+<p>如果您正在构建Web或移动应用程序，则此类语言非常有趣，因为JavaScript是Web自己的API的语言。</p>
+<p>并且Kotlin和Dart在构建跨平台本机移动应用程序的开发人员中越来越受欢迎。</p>
+<p>那么，我们想弄清楚如何以一种高性能的方式将Web平台扩展到使用这些语言编写的应用程序。</p>
+<p>让我们看看我们如何做到这一点。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.790fppjg3ts0.webp"></p>
+<p>当Web应用程序在浏览器中启动时，它会为其JavaScript代码和一些热内存提供上下文。</p>
+<p>JavaScript内存是垃圾收集的，因此浏览器后台有一个垃圾收集器。</p>
+<p>现在，当应用程序实例化WebAssembly模块时，它会请求并分配一块线性内存区域供其自己使用。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.3pvtv5awj1e0.webp"></p>
+<p>如果开发人员使用的是C或C++之类的语言，则WebAssembly模块将使用其中一些内存用于动态堆。</p>
+<p>开发人员将在使用后处理释放对象。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4a70u6cg5xa0.webp"></p>
+<p>另一方面，如果开发人员想要使用管理内存语言，则WebAssembly模块将需要包含该语言作为垃圾收集器代码来管理堆，并自动释放未使用的内存。</p>
+<p>这种方法存在两个主要问题。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.5o9str6sk2c0.webp"></p>
+<ol>
+<li>明显的膨胀。</li>
+</ol>
+<p>WebAssembly模块必须每次加载应用程序时都发送并实例化垃圾收集器。</p>
+<p>这会增加模块大小并延迟应用程序启动，尽管所有符合标准的浏览器都已经包含了应用程序可以使用的垃圾收集器。</p>
+<p>另一种膨胀形式来自开发人员需要在决定其模块所需的内存量时具有一种类似的预知能力。</p>
+<p>为了避免崩溃，通常要做的事情是设置最大内存大小，该大小仅略大于您预期的内存需求的上限。</p>
+<p>这会给实现带来更大的压力，因为它们必须将应用程序的JavaScript和WebAssembly内存与用户可能正在使用的其他应用程序和选项卡所需的内存分开管理。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.5iuqrmtnmek0.webp"></p>
+<ol start="2">
+<li>我称之为分裂大脑问题。</li>
+</ol>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.3k6xc3a2yy00.webp"></p>
+<p>在此体系结构中，这两个内存及其垃圾收集器彼此一无所知。</p>
+<p>这意味着开发人员需要小心地设计其应用程序，以避免在JavaScript垃圾收集器来到并释放WebAssembly侧仍然需要的内存时发生损坏，反之亦然。</p>
+<p>所有这些加起来都是开发人员必须自己做的更多簿记，这在某种程度上破坏了首先使用管理内存语言的整个原因。</p>
+<p>但是，即使将所有对象放在一侧，即WebAssembly侧，也无法避免处理JavaScript堆。</p>
+<p>这是因为Web API。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4z3jdawmzgc0.webp"></p>
+<p>Web API被指定为接受和返回JavaScript对象，这些对象自然位于JavaScript堆上，并由JavaScript垃圾收集器收集。</p>
+<p>在WebAssembly的原始版本中，这意味着在调用Web API时，需要在WebAssembly和JavaScript之间来回复制数据。</p>
+<p>图形API（例如Dom，Canvas，WebGL和Web GPU）尤其受此影响，因为在某些情况下，它们需要每帧调用数百次或每秒调用数千次，严格的延迟要求以避免用户可见的jank。</p>
+<p>最终的结果是，即使我们为代码构建了快速的编译目标，许多框架和应用程序也会产生比它们在本机移动平台上产生的更多的jank体验。</p>
+<p>那么我们如何解决这个问题？</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.12f8lmse3cdc.webp"></p>
+<p>好吧，WebAssembly社区创建了一个新的扩展，实际上在JavaScript和WebAssembly GC模块之间共享一个联合堆。</p>
+<p>现在，您的管理内存代码可以在此共享堆上分配模块。</p>
+<p>当浏览器的垃圾收集器来时，JavaScript和WebAssembly GC对象将一起进行垃圾收集。</p>
+<p>这意味着没有膨胀。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.471e8zj6cci0.webp"></p>
+<p>您的WebAssembly模块不必在应用程序中发送其自己的完整垃圾收集器实现。</p>
+<p>您的WebAssembly应用程序可以更轻松地根据需要增加或减少其内存消耗，就像JavaScript应用程序一样。</p>
+<p>包括WebAssembly GC模块，创建对象的堆与JavaScript Web API查找它们的堆相同，并且返回值也很容易传递，所有这些都不需要过多的复制。</p>
+<p>因此，这就是WebAssembly GC，现代管理内存语言的更小二进制文件，与JavaScript代码和Web API以及动态可调整大小的内存占用相比，更快的互操作性。</p>
+<h2 id="Flutter、Android和Kotlin多平台"><a href="#Flutter、Android和Kotlin多平台" class="headerlink" title="Flutter、Android和Kotlin多平台"></a>Flutter、Android和Kotlin多平台</h2><p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.45akq7zt3xe0.webp"></p>
+<p>有了WebAssembly GC，Web终于可以向我们的Flutter，Android和Kotlin多平台应用程序开发人员表示欢迎。</p>
+<p>让我们看看WebAssembly对您意味着什么。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.3mq3qcjwz0o0.webp"></p>
+<p>早期数据显示，WebAssembly GC现在可以在浏览器中运行从这些语言编译的代码比将它们编译为JavaScript运行时快两倍。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.6dqe3r5jhmc.webp"></p>
+<p>从用户的角度来看，这种性能水平越来越难以区分，与本机移动平台上看到的相同。</p>
+<p>我们正在谈论每秒120帧的应用程序，单个毫秒帧更新时间。</p>
+<p>现在，我们可以想象一个世界，在这个世界中，跨平台框架可以使用本机移动平台和Web构建应用程序，而用户在哪里找到您的应用程序时，其功能和性能没有任何区别。</p>
+<p>开发人员体验也会变得更好。</p>
+<p>以前，开发人员必须构建单独的本机Android和iOS应用程序，以及Web应用程序，以覆盖最广泛的用户集。</p>
+<p>跨平台框架，例如Kotlin多平台移动，使开发人员可以在单个代码库中编写其移动应用程序的业务逻辑，该代码库编译为Android和iOS，同时使用平台本机框架和小部件实现其用户界面。</p>
+<p>但是，将此跨平台功能扩展到Web遇到了一些挑战。</p>
+<p>很长一段时间以来，您无法将移动语言（例如Kotlin）编译为Web。</p>
+<p>最多，您可以将其转换为JavaScript，然后在浏览器中运行该JavaScript。</p>
+<p>这种方法产生的Web上的应用程序对用户来说并不像本机移动平台上那样快速和平滑。</p>
+<p>现在，借助WebAssembly对管理内存语言的新支持，跨平台应用程序也可以直接编译为所有三个平台的本机运行时，从而使开发人员可以访问Web的覆盖范围和即时启动，并为用户提供快速和平滑的体验无论他们在哪里找到您的应用程序。</p>
+<p>Kotlin社区还受益于UI框架，例如Compose，它可以帮助开发人员共享大部分其UI代码，以及性能水平与本机平台相匹配的本机平台。</p>
+<h2 id="关于Jetbrain与WebAssembly"><a href="#关于Jetbrain与WebAssembly" class="headerlink" title="关于Jetbrain与WebAssembly"></a>关于Jetbrain与WebAssembly</h2><p>在JetBrains，WebAssembly是一项有前途的技术。</p>
+<p>就在不久前，发布了Kotlin编译器的WebAssembly目标的实验版本。</p>
+<p>我们在Kotlin Wasm的未来中看到了很多潜在的用例，从在浏览器中运行的高性能Web应用程序，到构建快速的无服务器功能。</p>
+<p>向您展示Kotlin Wasm未来的一个具体示例。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.eokkh9vt5go.webp"></p>
+<p>在这里，您可以看到使用Jetpack Compose构建的应用程序，Jetpack Compose是Google为Android创建的声明性和现代UI框架。</p>
+<p>您可能实际上已经在Android上看到了这个特定的应用程序。</p>
+<p>现在，在JetBrains，他们正在努力将Jetpack Compose带到除Android之外的多个其他平台，例如桌面，iOS和Web。</p>
+<p>实际上，这意味着您可以使用Jetpack Compose的所有API，这些API可能来自于为Android开发的经验，并将其用于其他平台。</p>
+<p>Compose的Web目标是构建在Kotlin Wasm之上的。</p>
+<p>它仍处于实验阶段。</p>
+<p>但是，让我向您展示我们已经可以做些什么。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.225v902uxdc0.webp"></p>
+<p>您可以在kotlinlang.org上了解有关Kotlin在Web上运行的更多信息。</p>
+<p>他们不仅使Android应用程序多平台化，Flutter开发人员多年来一直在使用Flutter来针对Android，iOS和Web。</p>
+<p>在Web上，Flutter开发人员也必须转换为JavaScript才能在浏览器中运行。</p>
+<p>但是，他们也为Flutter web解锁了更快的性能。</p>
+<p>今年首次，直接将Dart代码编译为浏览器中快速高效的WebAssembly代码。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.6uytnp7acpc0.webp"></p>
+<p>您可以在flutter.dev&#x2F;wasm上阅读有关Flutter web提供的令人兴奋的新性能提升的更多信息。</p>
+<p>在开放的Web上，您的应用程序距离新用户只有一步之遥，他们可以像共享Web页面一样轻松地发现它并共享它，而没有任何商店阻碍您的盈利能力。</p>
+<p><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.5unbj5cul380.webp"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>跨平台开发的生产力，原生移动应用程序的性能以及Web的开放性 - 这就是我们选择WebAssembly的原因。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>WebAssembly:A new development paradigm for the web</p><p><a href="https://1uciuszzz.github.io/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/">https://1uciuszzz.github.io/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>1uciuszzz</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-05-16</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-05-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/webAssembly/">webAssembly</a><a class="link-muted mr-2" rel="tag" href="/tags/web/">web</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=645b3e893f205e001a0bac07&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/7091b65e5d1ddcbe0910fee881942ae.28i7f2ry1zwg.webp" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/08f055037016ad1d64199261cd35930.n3cj80xop28.webp" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2023/05/15/new2TheWebPlatformInMarch/"><span class="level-item">New to the web platform in March</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "6fce3a65ace5d1233e457d8cef8ac36a",
+            repo: "1uciuszzz.github.io",
+            owner: "1uciuszzz",
+            clientID: "732d49a32c7a9686268a",
+            clientSecret: "57aca1c407d3120f5deb4f3170aa92a7d8f0b859",
+            admin: ["1uciuszzz"],
+            createIssueManually: false,
+            distractionFreeMode: false,
+            perPage: 20,
+            pagerDirection: "last",
+            
+            
+            enableHotKey: true,
+            language: "zh-CN",
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/50418607.5isa5e6btxo0.webp" alt="1uciuszzz"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">1uciuszzz</p><p class="is-size-6 is-block">Developer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>CN.Wuhan</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">11</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/1uciuszzz" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/GIS/"><span class="level-start"><span class="level-item">GIS</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/WebGPU/"><span class="level-start"><span class="level-item">WebGPU</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/new-feature-on-web-platform/"><span class="level-start"><span class="level-item">new feature on web platform</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/webAssembly/"><span class="level-start"><span class="level-item">webAssembly</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Cesium/"><span class="tag">Cesium</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/GPU/"><span class="tag">GPU</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Google-IO-2023/"><span class="tag">Google IO 2023</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/TMS/"><span class="tag">TMS</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Tif/"><span class="tag">Tif</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebGL/"><span class="tag">WebGL</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/WebGPU/"><span class="tag">WebGPU</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/new-feature/"><span class="tag">new feature</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web/"><span class="tag">web</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web-platform/"><span class="tag">web platform</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webAssembly/"><span class="tag">webAssembly</span><span class="tag">1</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#WebAssembly介绍"><span class="level-left"><span class="level-item">1</span><span class="level-item">WebAssembly介绍</span></span></a></li><li><a class="level is-mobile" href="#C-WebAssembly"><span class="level-left"><span class="level-item">2</span><span class="level-item">C++ WebAssembly</span></span></a></li><li><a class="level is-mobile" href="#Swift-WebAssembly"><span class="level-left"><span class="level-item">3</span><span class="level-item">Swift WebAssembly</span></span></a></li><li><a class="level is-mobile" href="#WebAssembly标准本身的进展情况"><span class="level-left"><span class="level-item">4</span><span class="level-item">WebAssembly标准本身的进展情况</span></span></a></li><li><a class="level is-mobile" href="#Flutter、Android和Kotlin多平台"><span class="level-left"><span class="level-item">5</span><span class="level-item">Flutter、Android和Kotlin多平台</span></span></a></li><li><a class="level is-mobile" href="#关于Jetbrain与WebAssembly"><span class="level-left"><span class="level-item">6</span><span class="level-item">关于Jetbrain与WebAssembly</span></span></a></li><li><a class="level is-mobile" href="#总结"><span class="level-left"><span class="level-item">7</span><span class="level-item">总结</span></span></a></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><figure class="media-left"><a class="image" href="/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4i6jdh5p77s0.webp" alt="WebAssembly:A new development paradigm for the web"></a></figure><div class="media-content"><p class="date"><time dateTime="2023-05-16T01:28:54.000Z">2023-05-16</time></p><p class="title"><a href="/2023/05/16/webAssemblyANewDevelopmentParadigm4TheWeb/">WebAssembly:A new development paradigm for the web</a></p><p class="categories"><a href="/categories/webAssembly/">webAssembly</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2023/05/15/new2TheWebPlatformInMarch/"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.4zqrx3wqhic0.webp" alt="New to the web platform in March"></a></figure><div class="media-content"><p class="date"><time dateTime="2023-05-15T08:24:50.000Z">2023-05-15</time></p><p class="title"><a href="/2023/05/15/new2TheWebPlatformInMarch/">New to the web platform in March</a></p><p class="categories"><a href="/categories/new-feature-on-web-platform/">new feature on web platform</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2023/05/12/new2TheWebPlatformInApril/"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.2bwonipcy9t.webp" alt="New to the web platform in April"></a></figure><div class="media-content"><p class="date"><time dateTime="2023-05-12T02:10:18.000Z">2023-05-12</time></p><p class="title"><a href="/2023/05/12/new2TheWebPlatformInApril/">New to the web platform in April</a></p><p class="categories"><a href="/categories/new-feature-on-web-platform/">new feature on web platform</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2023/05/11/webGPUUnlockingModernGPUAccessInTheBrowser/"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/image.5zzmc7ao1fg0.webp" alt="WebGPU:Unlocking modern GPU access in the browser"></a></figure><div class="media-content"><p class="date"><time dateTime="2023-05-11T01:09:04.000Z">2023-05-11</time></p><p class="title"><a href="/2023/05/11/webGPUUnlockingModernGPUAccessInTheBrowser/">WebGPU:Unlocking modern GPU access in the browser</a></p><p class="categories"><a href="/categories/WebGPU/">WebGPU</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-05-10T07:11:12.000Z">2023-05-10</time></p><p class="title"><a href="/2023/05/10/convertTif2Tms4Cesium/">Convert Tif to Tms for Cesium.js</a></p><p class="categories"><a href="/categories/GIS/">GIS</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2023/"><span class="level-start"><span class="level-item">2023</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://cdn.staticaly.com/gh/1uciuszzz/image-hosting@master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2023 1uciuszzz</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
