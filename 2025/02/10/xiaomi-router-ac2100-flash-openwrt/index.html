@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>将 openwrt 刷入小米路由器 AC2100 - lucius&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="lucius&#039;s blog"><meta name="msapplication-TileImage" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lucius&#039;s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="192x192" href="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="description" content="小米 MI 路由器 AC2100 是带有 MT7621 平台的无线路由器。与其他规格相似的单位相比，它可以以相对较低的成本获取，但它具有两个不同的安装过程，以绕过锁定的库存固件以安装 OpenWRT。其中一个在每种版本的 Firmwares 中都可以降级固件。"><meta property="og:type" content="blog"><meta property="og:title" content="将 openwrt 刷入小米路由器 AC2100"><meta property="og:url" content="https://1uciuszzz.github.io/2025/02/10/xiaomi-router-ac2100-flash-openwrt/"><meta property="og:site_name" content="lucius&#039;s blog"><meta property="og:description" content="小米 MI 路由器 AC2100 是带有 MT7621 平台的无线路由器。与其他规格相似的单位相比，它可以以相对较低的成本获取，但它具有两个不同的安装过程，以绕过锁定的库存固件以安装 OpenWRT。其中一个在每种版本的 Firmwares 中都可以降级固件。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/a-field-with-hay-bales-1a.67xkyswzar.webp"><meta property="article:published_time" content="2025-02-10T03:41:23.000Z"><meta property="article:modified_time" content="2025-02-10T03:41:23.000Z"><meta property="article:author" content="1uciuszzz"><meta property="article:tag" content="openwrt"><meta property="article:tag" content="xiaomi-router-ac2100"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/a-field-with-hay-bales-1a.67xkyswzar.webp"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://1uciuszzz.github.io/2025/02/10/xiaomi-router-ac2100-flash-openwrt/"},"headline":"将 openwrt 刷入小米路由器 AC2100","image":["https://github.com/1uciuszzz/picx-images-hosting/raw/master/a-field-with-hay-bales-1a.67xkyswzar.webp"],"datePublished":"2025-02-10T03:41:23.000Z","dateModified":"2025-02-10T03:41:23.000Z","author":{"@type":"Person","name":"1uciuszzz"},"publisher":{"@type":"Organization","name":"lucius's blog","logo":{"@type":"ImageObject","url":"https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"}},"description":"小米 MI 路由器 AC2100 是带有 MT7621 平台的无线路由器。与其他规格相似的单位相比，它可以以相对较低的成本获取，但它具有两个不同的安装过程，以绕过锁定的库存固件以安装 OpenWRT。其中一个在每种版本的 Firmwares 中都可以降级固件。"}</script><link rel="canonical" href="https://1uciuszzz.github.io/2025/02/10/xiaomi-router-ac2100-flash-openwrt/"><link rel="icon" href="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600&amp;family=Roboto+Mono"><link data-pjax rel="stylesheet" href="/css/cyberpunk.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/a-field-with-hay-bales-1a.67xkyswzar.webp" alt="将 openwrt 刷入小米路由器 AC2100"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2025-02-10T03:41:23.000Z" title="2025/2/10 11:41:23">2025-02-10</time>发表</span><span class="level-item"><time dateTime="2025-02-10T03:41:23.000Z" title="2025/2/10 11:41:23">2025-02-10</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/openwrt/">openwrt</a><span> / </span><a class="link-muted" href="/categories/openwrt/xiaomi-router-ac2100/">xiaomi-router-ac2100</a></span><span class="level-item">6 分钟读完 (大约891个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">将 openwrt 刷入小米路由器 AC2100</h1><div class="content"><p>小米 MI 路由器 AC2100 是带有 MT7621 平台的无线路由器。与其他规格相似的单位相比，它可以以相对较低的成本获取，但它具有两个不同的安装过程，以绕过锁定的库存固件以安装 OpenWRT。其中一个在每种版本的 Firmwares 中都可以降级固件。</p>
+<span id="more"></span>
+
+<p>从技术角度来看，小米 MI 路由器 AC2100 的规格与 Redmi AC2100 高度相同。它默认运行小米路由器固件，同样，它需要一个简单的“ pppoe”或“网络面板壳”利用来通过命令行界面启动 shell 和 flash openwrt。</p>
+<h2 id="支持版本"><a href="#支持版本" class="headerlink" title="支持版本"></a>支持版本</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Brand</td>
+<td>Xiaomi</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Mi Router AC2100</td>
+</tr>
+<tr>
+<td>Version</td>
+<td></td>
+</tr>
+<tr>
+<td>Supported Current Rel</td>
+<td>23.05.5</td>
+</tr>
+<tr>
+<td>OEM Device Homepage URL</td>
+<td><a target="_blank" rel="noopener" href="https://mi.com/">mi.com</a></td>
+</tr>
+<tr>
+<td>Forum search</td>
+<td>Mi Router AC2100</td>
+</tr>
+</tbody></table>
+<h2 id="硬件亮点"><a href="#硬件亮点" class="headerlink" title="硬件亮点"></a>硬件亮点</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model</td>
+<td>Mi Router AC2100</td>
+</tr>
+<tr>
+<td>Version</td>
+<td></td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>MediaTek MT7621A</td>
+</tr>
+<tr>
+<td>CPU MHz</td>
+<td>880</td>
+</tr>
+<tr>
+<td>Flash MB</td>
+<td>128NAND</td>
+</tr>
+<tr>
+<td>RAM MB</td>
+<td>128</td>
+</tr>
+<tr>
+<td>WLAN Hardware</td>
+<td>MediaTek MT7603, MediaTek MT7615</td>
+</tr>
+<tr>
+<td>WLAN 2.4GHz</td>
+<td>b&#x2F;g&#x2F;n</td>
+</tr>
+<tr>
+<td>WLAN 5.0GHz</td>
+<td>a&#x2F;n&#x2F;ac</td>
+</tr>
+<tr>
+<td>Ethernet 100M ports</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Ethernet 1Gbit ports</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Modem</td>
+<td>-</td>
+</tr>
+<tr>
+<td>USB ports</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model</td>
+<td>Mi Router AC2100</td>
+</tr>
+<tr>
+<td>Version</td>
+<td></td>
+</tr>
+<tr>
+<td>Supported Current Rel</td>
+<td><a target="_blank" rel="noopener" href="https://openwrt.org/releases/23.05.5">23.05.5</a></td>
+</tr>
+<tr>
+<td>Firmware OpenWrt Install URL</td>
+<td><a target="_blank" rel="noopener" href="https://downloads.openwrt.org/releases/23.05.5/targets/ramips/mt7621/openwrt-23.05.5-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-kernel1.bin">Factory image</a>, <a target="_blank" rel="noopener" href="https://downloads.openwrt.org/releases/23.05.5/targets/ramips/mt7621/openwrt-23.05.5-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-rootfs0.bin">Factory image</a></td>
+</tr>
+<tr>
+<td>Firmware OpenWrt Upgrade URL</td>
+<td><a target="_blank" rel="noopener" href="https://downloads.openwrt.org/releases/23.05.5/targets/ramips/mt7621/openwrt-23.05.5-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-sysupgrade.bin">Sysupgrade image</a></td>
+</tr>
+<tr>
+<td>Firmware OEM Stock URL</td>
+<td><a target="_blank" rel="noopener" href="http://miwifi.com/miwifi_download.html">OEM Firmware</a></td>
+</tr>
+</tbody></table>
+<p>要安装 OpenWRT，您首先需要获得 SSH 访问，然后从 SSH 安装 OpenWrt。</p>
+<h3 id="较旧的固件-Web-利用（推荐的简单方法）"><a href="#较旧的固件-Web-利用（推荐的简单方法）" class="headerlink" title="较旧的固件 Web 利用（推荐的简单方法）"></a>较旧的固件 Web 利用（推荐的简单方法）</h3><p>首先需要将固件降级至<a target="_blank" rel="noopener" href="http://cdn.cnbj1.fds.api.mimg.com/xiaoqiang/rom/rom/r2100/miwifi_r2100_firmware_4b519_2.0.722.bin">2.0.722</a></p>
+<h3 id="登录路由器管理面板并获取-STOK-变量"><a href="#登录路由器管理面板并获取-STOK-变量" class="headerlink" title="登录路由器管理面板并获取 STOK 变量"></a>登录路由器管理面板并获取 STOK 变量</h3><p>浏览器中输入<a target="_blank" rel="noopener" href="http://192.168.31.1/cgi-bin/luci/;stok=%3CSTOK%3E/web/home#router">http://192.168.31.1/cgi-bin/luci/;stok=<STOK>&#x2F;web&#x2F;home#router</a>，并打开网站</p>
+<p>从路由器管理面板获取唯一的 <STOK> 变量后，逐一访问这些 URL。访问每个 URL 之前，不要忘记更改 <STOK> 值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.1/cgi-bin/luci/;stok=&lt;STOK&gt;/api/misystem/set_config_iotdev?bssid=Xiaomi&amp;user_id=longdike&amp;ssid=-h%3Bnvram%20set%20ssh%5Fen%3D1%3B%20nvram%20commit%3B</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.1/cgi-bin/luci/;stok=&lt;STOK&gt;/api/misystem/set_config_iotdev?bssid=Xiaomi&amp;user_id= longdike&amp;ssid=-h%3Bsed%20-i%20&#x27;s/channel=.\*/channel=%5C%22debug%5C%22/g&#x27;%20/etc/init.d/dropbear%3B</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.1/cgi-bin/luci/;stok=&lt;STOK&gt;/api/misystem/set_config_iotdev?bssid=Xiaomi&amp;user_id=longdike&amp;ssid=-h%3B/etc/init.d/dropbear%20start%3B</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.31.1/cgi-bin/luci/;stok=&lt;STOK&gt;/api/misystem/set_config_iotdev?bssid=Xiaomi&amp;user_id=longdike&amp;ssid=-h%3B%20echo%20-e%20&#x27;admin%5Cnadmin&#x27; %20%7C%20passwd%20root%3B</span><br></pre></td></tr></table></figure>
+
+<p>如果一切顺利，您现在应该能够使用 SSH 连接。用户名：<code>root</code> &#x2F; 密码：<code>admin</code></p>
+<h3 id="下载-OpenWrt-固件文件"><a href="#下载-OpenWrt-固件文件" class="headerlink" title="下载 OpenWrt 固件文件"></a>下载 OpenWrt 固件文件</h3><ol>
+<li><a target="_blank" rel="noopener" href="http://downloads.openwrt.org/snapshots/targets/ramips/mt7621/openwrt-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-kernel1.bin">squashfs-kernel1.bin</a></li>
+<li><a target="_blank" rel="noopener" href="http://downloads.openwrt.org/snapshots/targets/ramips/mt7621/openwrt-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-rootfs0.bin">squashfs-rootfs0.bin</a></li>
+</ol>
+<p>然后通过 ssh 或 ftp 把文件传入路由器，随后打开路由器设备的 ssh 依次执行下列命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用 uart 和 bootdelay，如果您有 uart 适配器，则可用于测试或恢复！</span></span><br><span class="line">nvram <span class="built_in">set</span> uart_en=1</span><br><span class="line">nvram <span class="built_in">set</span> bootdelay=5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 kernel1 设置为启动内核</span></span><br><span class="line">nvram <span class="built_in">set</span> flag_try_sys1_failed=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交我们的 nvram 更改</span></span><br><span class="line">nvram commit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷入内核</span></span><br><span class="line">mtd write openwrt-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-kernel1.bin kernel1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刷入 rootfs</span></span><br><span class="line">mtd -r write openwrt-ramips-mt7621-xiaomi_mi-router-ac2100-squashfs-rootfs0.bin rootfs0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><h3 id="设置-openwrt-管理员密码"><a href="#设置-openwrt-管理员密码" class="headerlink" title="设置 openwrt 管理员密码"></a>设置 openwrt 管理员密码</h3><p>通过电脑的命令行访问 openwrt：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@192.168.1.1</span><br></pre></td></tr></table></figure>
+
+<p>进入后执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置无线网络"><a href="#设置无线网络" class="headerlink" title="设置无线网络"></a>设置无线网络</h3><p>打开浏览器访问<a target="_blank" rel="noopener" href="http://192.168.1.1/">luci 面板</a>。</p>
+<p>进入 wireless 自行设置。</p>
+<p>至此，openwrt 已刷入完成。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>将 openwrt 刷入小米路由器 AC2100</p><p><a href="https://1uciuszzz.github.io/2025/02/10/xiaomi-router-ac2100-flash-openwrt/">https://1uciuszzz.github.io/2025/02/10/xiaomi-router-ac2100-flash-openwrt/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>1uciuszzz</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2025-02-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2025-02-10</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/openwrt/">openwrt</a><a class="link-muted mr-2" rel="tag" href="/tags/xiaomi-router-ac2100/">xiaomi-router-ac2100</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=645b3e893f205e001a0bac07&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/7091b65e5d1ddcbe0910fee881942ae.28i7f2ry1zwg.webp" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/08f055037016ad1d64199261cd35930.n3cj80xop28.webp" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2024/11/29/rust-references-ownership-borrowing/"><span class="level-item">rust 引用 所有权 借用</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "e1b25b47914ec1f6895febc9be84d865",
+            repo: "1uciuszzz.github.io",
+            owner: "1uciuszzz",
+            clientID: "732d49a32c7a9686268a",
+            clientSecret: "57aca1c407d3120f5deb4f3170aa92a7d8f0b859",
+            admin: ["1uciuszzz"],
+            createIssueManually: false,
+            distractionFreeMode: false,
+            perPage: 20,
+            pagerDirection: "last",
+            
+            
+            enableHotKey: true,
+            language: "zh-CN",
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/50418607.5isa5e6btxo0.webp" alt="1uciuszzz"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">1uciuszzz</p><p class="is-size-6 is-block">Developer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>CN.Wuhan</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">11</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">9</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">19</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/1uciuszzz" target="_blank" rel="me noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/crypto/"><span class="level-start"><span class="level-item">crypto</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/gis/"><span class="level-start"><span class="level-item">gis</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/new-feature-on-web-platform/"><span class="level-start"><span class="level-item">new feature on web platform</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/openwrt/"><span class="level-start"><span class="level-item">openwrt</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/openwrt/xiaomi-router-ac2100/"><span class="level-start"><span class="level-item">xiaomi-router-ac2100</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/rust/"><span class="level-start"><span class="level-item">rust</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/webAssembly/"><span class="level-start"><span class="level-item">webAssembly</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/webgpu/"><span class="level-start"><span class="level-item">webgpu</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/cesium/"><span class="tag">cesium</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/crypto/"><span class="tag">crypto</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gdal/"><span class="tag">gdal</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gis/"><span class="tag">gis</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/google-io-2023/"><span class="tag">google io 2023</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gpu/"><span class="tag">gpu</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/new-feature/"><span class="tag">new feature</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/openwrt/"><span class="tag">openwrt</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/rust/"><span class="tag">rust</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sha256/"><span class="tag">sha256</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ssr/"><span class="tag">ssr</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tif/"><span class="tag">tif</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tms/"><span class="tag">tms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web/"><span class="tag">web</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web-platform/"><span class="tag">web platform</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webAssembly/"><span class="tag">webAssembly</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webgl/"><span class="tag">webgl</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webgpu/"><span class="tag">webgpu</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/xiaomi-router-ac2100/"><span class="tag">xiaomi-router-ac2100</span><span class="tag">1</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#支持版本"><span class="level-left"><span class="level-item">1</span><span class="level-item">支持版本</span></span></a></li><li><a class="level is-mobile" href="#硬件亮点"><span class="level-left"><span class="level-item">2</span><span class="level-item">硬件亮点</span></span></a></li><li><a class="level is-mobile" href="#安装"><span class="level-left"><span class="level-item">3</span><span class="level-item">安装</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#较旧的固件-Web-利用（推荐的简单方法）"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">较旧的固件 Web 利用（推荐的简单方法）</span></span></a></li><li><a class="level is-mobile" href="#登录路由器管理面板并获取-STOK-变量"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">登录路由器管理面板并获取 STOK 变量</span></span></a></li><li><a class="level is-mobile" href="#下载-OpenWrt-固件文件"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">下载 OpenWrt 固件文件</span></span></a></li></ul></li><li><a class="level is-mobile" href="#设置"><span class="level-left"><span class="level-item">4</span><span class="level-item">设置</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#设置-openwrt-管理员密码"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">设置 openwrt 管理员密码</span></span></a></li><li><a class="level is-mobile" href="#设置无线网络"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">设置无线网络</span></span></a></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><figure class="media-left"><a class="image" href="/2025/02/10/xiaomi-router-ac2100-flash-openwrt/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/a-field-with-hay-bales-1a.67xkyswzar.webp" alt="将 openwrt 刷入小米路由器 AC2100"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-02-10T03:41:23.000Z">2025-02-10</time></p><p class="title"><a href="/2025/02/10/xiaomi-router-ac2100-flash-openwrt/">将 openwrt 刷入小米路由器 AC2100</a></p><p class="categories"><a href="/categories/openwrt/">openwrt</a> / <a href="/categories/openwrt/xiaomi-router-ac2100/">xiaomi-router-ac2100</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2024/11/29/rust-references-ownership-borrowing/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.pfdm3hkr8.webp" alt="rust 引用 所有权 借用"></a></figure><div class="media-content"><p class="date"><time dateTime="2024-11-29T01:27:06.000Z">2024-11-29</time></p><p class="title"><a href="/2024/11/29/rust-references-ownership-borrowing/">rust 引用 所有权 借用</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2024/04/03/new-to-the-web-platform-in-24-march/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.6f0gf2bh9r.jpg" alt="2024年3月份Web平台新增功能"></a></figure><div class="media-content"><p class="date"><time dateTime="2024-04-03T08:24:50.000Z">2024-04-03</time></p><p class="title"><a href="/2024/04/03/new-to-the-web-platform-in-24-march/">2024年3月份Web平台新增功能</a></p><p class="categories"><a href="/categories/new-feature-on-web-platform/">new feature on web platform</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2024/01/22/made-your-own-web-map-tile-service/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/land_shallow_topo_350.4zvspgnz7is0.webp" alt="使用gdal创建地图瓦片服务"></a></figure><div class="media-content"><p class="date"><time dateTime="2024-01-22T01:39:55.000Z">2024-01-22</time></p><p class="title"><a href="/2024/01/22/made-your-own-web-map-tile-service/">使用gdal创建地图瓦片服务</a></p><p class="categories"><a href="/categories/gis/">gis</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2023/12/06/web-frontend-sha256-file/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.6x5oz0hvfw00.webp" alt="Web中的文件sha256校验"></a></figure><div class="media-content"><p class="date"><time dateTime="2023-12-06T00:39:46.000Z">2023-12-06</time></p><p class="title"><a href="/2023/12/06/web-frontend-sha256-file/">Web中的文件sha256校验</a></p><p class="categories"><a href="/categories/crypto/">crypto</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">二月 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">十一月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">四月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">一月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">十二月 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/09/"><span class="level-start"><span class="level-item">九月 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/05/"><span class="level-start"><span class="level-item">五月 2023</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2025 1uciuszzz</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
