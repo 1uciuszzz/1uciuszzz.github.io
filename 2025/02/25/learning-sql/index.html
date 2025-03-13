@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Learning SQL - lucius&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="lucius&#039;s blog"><meta name="msapplication-TileImage" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lucius&#039;s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="192x192" href="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="description" content="SQL（Structured Query Language）是一种用于管理关系型数据库的编程语言。通过 SQL，你可以查询、插入、更新和删除数据库中的数据。关系型数据库（RDBMS）是使用表格来组织数据的数据库管理系统。常见的关系型数据库包括 MySQL、PostgreSQL、SQLite 和 Oracle 等。"><meta property="og:type" content="blog"><meta property="og:title" content="Learning SQL"><meta property="og:url" content="https://1uciuszzz.github.io/2025/02/25/learning-sql/"><meta property="og:site_name" content="lucius&#039;s blog"><meta property="og:description" content="SQL（Structured Query Language）是一种用于管理关系型数据库的编程语言。通过 SQL，你可以查询、插入、更新和删除数据库中的数据。关系型数据库（RDBMS）是使用表格来组织数据的数据库管理系统。常见的关系型数据库包括 MySQL、PostgreSQL、SQLite 和 Oracle 等。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/nature-3082832_1280.7zqkf66k6i.webp"><meta property="article:published_time" content="2025-02-25T06:22:04.000Z"><meta property="article:modified_time" content="2025-02-25T06:22:04.000Z"><meta property="article:author" content="1uciuszzz"><meta property="article:tag" content="sql"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/nature-3082832_1280.7zqkf66k6i.webp"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://1uciuszzz.github.io/2025/02/25/learning-sql/"},"headline":"Learning SQL","image":["https://github.com/1uciuszzz/picx-images-hosting/raw/master/nature-3082832_1280.7zqkf66k6i.webp"],"datePublished":"2025-02-25T06:22:04.000Z","dateModified":"2025-02-25T06:22:04.000Z","author":{"@type":"Person","name":"1uciuszzz"},"publisher":{"@type":"Organization","name":"lucius's blog","logo":{"@type":"ImageObject","url":"https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"}},"description":"SQL（Structured Query Language）是一种用于管理关系型数据库的编程语言。通过 SQL，你可以查询、插入、更新和删除数据库中的数据。关系型数据库（RDBMS）是使用表格来组织数据的数据库管理系统。常见的关系型数据库包括 MySQL、PostgreSQL、SQLite 和 Oracle 等。"}</script><link rel="canonical" href="https://1uciuszzz.github.io/2025/02/25/learning-sql/"><link rel="icon" href="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600&amp;family=Roboto+Mono"><link data-pjax rel="stylesheet" href="/css/cyberpunk.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/nature-3082832_1280.7zqkf66k6i.webp" alt="Learning SQL"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2025-02-25T06:22:04.000Z" title="2025/2/25 14:22:04">2025-02-25</time>发表</span><span class="level-item"><time dateTime="2025-02-25T06:22:04.000Z" title="2025/2/25 14:22:04">2025-02-25</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/sql/">sql</a></span><span class="level-item">1 小时读完 (大约10574个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Learning SQL</h1><div class="content"><p>SQL（Structured Query Language）是一种用于管理关系型数据库的编程语言。通过 SQL，你可以查询、插入、更新和删除数据库中的数据。关系型数据库（RDBMS）是使用表格来组织数据的数据库管理系统。常见的关系型数据库包括 MySQL、PostgreSQL、SQLite 和 Oracle 等。</p>
+<span id="more"></span>
+
+<h2 id="SQL-基础语法"><a href="#SQL-基础语法" class="headerlink" title="SQL 基础语法"></a>SQL 基础语法</h2><p>SQL 的基础语法包括数据类型、运算符、关键字等内容。让我们一步步来详细了解。</p>
+<hr>
+<h3 id="数据类型（Data-Types）"><a href="#数据类型（Data-Types）" class="headerlink" title="数据类型（Data Types）"></a>数据类型（Data Types）</h3><p>在 SQL 中，数据类型用于定义每个列可以存储的数据的类型。常见的数据类型如下：</p>
+<ul>
+<li><p><strong>整数类型</strong>：</p>
+<ul>
+<li><code>INT</code>：用于存储整数（没有小数）。</li>
+<li><code>TINYINT</code>：非常小的整数。</li>
+<li><code>BIGINT</code>：非常大的整数。</li>
+</ul>
+</li>
+<li><p><strong>浮动类型</strong>：</p>
+<ul>
+<li><code>FLOAT</code>：单精度浮动点数。</li>
+<li><code>DOUBLE</code>：双精度浮动点数。</li>
+</ul>
+</li>
+<li><p><strong>字符类型</strong>：</p>
+<ul>
+<li><code>VARCHAR(size)</code>：变长字符串类型，<code>size</code>指定最大字符长度。</li>
+<li><code>CHAR(size)</code>：定长字符串类型。</li>
+<li><code>TEXT</code>：用于存储大量文本。</li>
+</ul>
+</li>
+<li><p><strong>日期和时间类型</strong>：</p>
+<ul>
+<li><code>DATE</code>：存储日期（年月日）。</li>
+<li><code>TIME</code>：存储时间（小时、分钟、秒）。</li>
+<li><code>DATETIME</code>：存储日期和时间。</li>
+</ul>
+</li>
+<li><p><strong>布尔类型</strong>：</p>
+<ul>
+<li><code>BOOLEAN</code>：存储<code>TRUE</code>或<code>FALSE</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="运算符（Operators）"><a href="#运算符（Operators）" class="headerlink" title="运算符（Operators）"></a>运算符（Operators）</h3><p>SQL 中的运算符用于执行各种操作，常见的运算符包括：</p>
+<ul>
+<li><p><strong>算术运算符</strong>：</p>
+<ul>
+<li><code>+</code>：加法。</li>
+<li><code>-</code>：减法。</li>
+<li><code>*</code>：乘法。</li>
+<li><code>/</code>：除法。</li>
+<li><code>%</code>：取余。</li>
+</ul>
+</li>
+<li><p><strong>比较运算符</strong>：</p>
+<ul>
+<li><code>=</code>：等于。</li>
+<li><code>!=</code> 或 <code>&lt;&gt;</code>：不等于。</li>
+<li><code>&gt;</code>：大于。</li>
+<li><code>&lt;</code>：小于。</li>
+<li><code>&gt;=</code>：大于等于。</li>
+<li><code>&lt;=</code>：小于等于。</li>
+</ul>
+</li>
+<li><p><strong>逻辑运算符</strong>：</p>
+<ul>
+<li><code>AND</code>：与，表示两个条件同时满足。</li>
+<li><code>OR</code>：或，表示其中一个条件满足。</li>
+<li><code>NOT</code>：非，表示条件不满足。</li>
+</ul>
+</li>
+<li><p><strong>其他运算符</strong>：</p>
+<ul>
+<li><code>BETWEEN</code>：判断值是否在某个范围内。</li>
+<li><code>IN</code>：判断值是否在一个给定的集合中。</li>
+<li><code>LIKE</code>：模糊匹配，常用于字符串匹配。</li>
+<li><code>IS NULL</code>：判断值是否为空。</li>
+<li><code>IS NOT NULL</code>：判断值是否非空。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="SQL-关键字（Keywords）"><a href="#SQL-关键字（Keywords）" class="headerlink" title="SQL 关键字（Keywords）"></a>SQL 关键字（Keywords）</h3><p>SQL 的关键字用于指定 SQL 语句的各种操作，常见的关键字包括：</p>
+<ul>
+<li>**<code>SELECT</code>**：用于从表格中检索数据。</li>
+<li>**<code>INSERT INTO</code>**：用于插入新数据。</li>
+<li>**<code>UPDATE</code>**：用于更新现有数据。</li>
+<li>**<code>DELETE</code>**：用于删除数据。</li>
+<li>**<code>FROM</code>**：指定查询的表格。</li>
+<li>**<code>WHERE</code>**：用于添加条件过滤数据。</li>
+<li>**<code>ORDER BY</code>**：用于排序数据。</li>
+<li>**<code>GROUP BY</code>**：用于将数据按某一列分组。</li>
+<li>**<code>HAVING</code>**：用于对分组后的数据进行条件过滤。</li>
+<li>**<code>JOIN</code>**：用于连接多个表格的数据。</li>
+<li>**<code>CREATE</code>**：用于创建数据库对象，如表、索引、视图等。</li>
+<li>**<code>ALTER</code>**：用于修改数据库对象，如修改表格结构。</li>
+<li>**<code>DROP</code>**：用于删除数据库对象。</li>
+</ul>
+<hr>
+<h3 id="常用的-SQL-语句"><a href="#常用的-SQL-语句" class="headerlink" title="常用的 SQL 语句"></a>常用的 SQL 语句</h3><p>以下是常见的 SQL 语句及其功能：</p>
+<h4 id="SELECT-查询语句"><a href="#SELECT-查询语句" class="headerlink" title="SELECT 查询语句"></a><code>SELECT</code> 查询语句</h4><p>用于从一个或多个表格中检索数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> column1, column2</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="INSERT-INTO-插入数据"><a href="#INSERT-INTO-插入数据" class="headerlink" title="INSERT INTO 插入数据"></a><code>INSERT INTO</code> 插入数据</h4><p>用于向表格中插入一条或多条记录。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> table_name (column1, column2)</span><br><span class="line"><span class="keyword">VALUES</span> (value1, value2);</span><br></pre></td></tr></table></figure>
+
+<h4 id="UPDATE-更新数据"><a href="#UPDATE-更新数据" class="headerlink" title="UPDATE 更新数据"></a><code>UPDATE</code> 更新数据</h4><p>用于修改表格中现有的记录。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name</span><br><span class="line"><span class="keyword">SET</span> column1 <span class="operator">=</span> value1, column2 <span class="operator">=</span> value2</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DELETE-删除数据"><a href="#DELETE-删除数据" class="headerlink" title="DELETE 删除数据"></a><code>DELETE</code> 删除数据</h4><p>用于删除表格中的数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="数据定义语言（DDL）"><a href="#数据定义语言（DDL）" class="headerlink" title="数据定义语言（DDL）"></a>数据定义语言（DDL）</h3><p>数据定义语言（DDL）用于定义和修改数据库结构（如表格、视图、索引等）。常见的 DDL 语句有：</p>
+<h4 id="CREATE-创建数据库或表格"><a href="#CREATE-创建数据库或表格" class="headerlink" title="CREATE 创建数据库或表格"></a><code>CREATE</code> 创建数据库或表格</h4><ul>
+<li>创建数据库：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE database_name;</span><br></pre></td></tr></table></figure></li>
+<li>创建表格：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_name (</span><br><span class="line">    column1 datatype,</span><br><span class="line">    column2 datatype,</span><br><span class="line">    ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="ALTER-修改表格"><a href="#ALTER-修改表格" class="headerlink" title="ALTER 修改表格"></a><code>ALTER</code> 修改表格</h4><ul>
+<li>添加新列：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name</span><br><span class="line"><span class="keyword">ADD</span> column_name datatype;</span><br></pre></td></tr></table></figure></li>
+<li>修改列的数据类型：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name</span><br><span class="line">MODIFY column_name new_datatype;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="DROP-删除表格或数据库"><a href="#DROP-删除表格或数据库" class="headerlink" title="DROP 删除表格或数据库"></a><code>DROP</code> 删除表格或数据库</h4><ul>
+<li>删除表格：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> table_name;</span><br></pre></td></tr></table></figure></li>
+<li>删除数据库：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> DATABASE database_name;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="TRUNCATE-清空表格"><a href="#TRUNCATE-清空表格" class="headerlink" title="TRUNCATE 清空表格"></a><code>TRUNCATE</code> 清空表格</h4><ul>
+<li>删除表格中的所有记录，但保留表格结构：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">TRUNCATE</span> <span class="keyword">TABLE</span> table_name;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><strong>数据类型</strong>：用于定义列的数据格式，如<code>INT</code>、<code>VARCHAR</code>等。</li>
+<li><strong>运算符</strong>：用于进行各种运算和比较，如算术运算符、逻辑运算符等。</li>
+<li><strong>关键字</strong>：用于执行 SQL 操作的单词，如<code>SELECT</code>、<code>INSERT</code>、<code>WHERE</code>等。</li>
+<li><strong>常用 SQL 语句</strong>：包括数据查询、插入、更新和删除。</li>
+<li><strong>数据定义语言（DDL）</strong>：用于创建、修改和删除数据库对象（表格、数据库等）。</li>
+</ul>
+<h2 id="数据操作：聚合查询与数据约束"><a href="#数据操作：聚合查询与数据约束" class="headerlink" title="数据操作：聚合查询与数据约束"></a>数据操作：聚合查询与数据约束</h2><p>这部分内容会涉及到<strong>聚合查询</strong>和<strong>数据约束</strong>，帮助你更好地处理数据分析和数据库完整性。</p>
+<hr>
+<h3 id="聚合查询（Aggregate-Queries）"><a href="#聚合查询（Aggregate-Queries）" class="headerlink" title="聚合查询（Aggregate Queries）"></a>聚合查询（Aggregate Queries）</h3><p>聚合函数用于对一组数据进行计算，并返回单个值。常见的聚合函数有：<code>AVG</code>（平均值）、<code>MIN</code>（最小值）、<code>MAX</code>（最大值）、<code>SUM</code>（总和）、<code>COUNT</code>（计数）等。</p>
+<h4 id="聚合函数的使用"><a href="#聚合函数的使用" class="headerlink" title="聚合函数的使用"></a>聚合函数的使用</h4><ul>
+<li><p>**<code>AVG()</code>**：计算一组数据的平均值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">AVG</span>(age) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>**<code>MIN()</code>**：返回一组数据中的最小值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">MIN</span>(age) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>**<code>MAX()</code>**：返回一组数据中的最大值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">MAX</span>(age) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>**<code>SUM()</code>**：计算一组数据的总和。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">SUM</span>(age) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>**<code>COUNT()</code>**：计算某列或所有行的数量。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> users;  <span class="comment">-- 计算所有记录的数量</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(age) <span class="keyword">FROM</span> users;  <span class="comment">-- 计算非空年龄的记录数量</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="GROUP-BY-语句"><a href="#GROUP-BY-语句" class="headerlink" title="GROUP BY 语句"></a><code>GROUP BY</code> 语句</h4><p>当你需要对数据进行分组时，可以使用<code>GROUP BY</code>语句。它可以将查询结果分成若干组，然后对每组数据进行聚合计算。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> age, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> age;</span><br></pre></td></tr></table></figure>
+
+<p>上面的查询会根据<code>age</code>对用户进行分组，并返回每个年龄的用户数量。</p>
+<h4 id="HAVING-语句"><a href="#HAVING-语句" class="headerlink" title="HAVING 语句"></a><code>HAVING</code> 语句</h4><p><code>HAVING</code>语句用于对分组后的数据进行过滤。不同于<code>WHERE</code>只能对原始数据进行过滤，<code>HAVING</code>是对聚合结果进行过滤。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> age, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> age</span><br><span class="line"><span class="keyword">HAVING</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="operator">&gt;</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>此查询返回有多个用户的年龄组。</p>
+<h3 id="数据约束（Data-Constraints）"><a href="#数据约束（Data-Constraints）" class="headerlink" title="数据约束（Data Constraints）"></a>数据约束（Data Constraints）</h3><p>数据约束用于限制数据库中数据的类型、范围等，确保数据的准确性和完整性。常见的数据约束有：</p>
+<h4 id="主键（Primary-Key）"><a href="#主键（Primary-Key）" class="headerlink" title="主键（Primary Key）"></a>主键（Primary Key）</h4><p>主键是表中唯一标识每一行的字段或字段组合。主键字段不能有重复值，且不能为空。每个表只能有一个主键。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">100</span>),</span><br><span class="line">    age <span class="type">INT</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这里，<code>id</code>是主键，保证了每个<code>id</code>的唯一性。</p>
+<h4 id="外键（Foreign-Key）"><a href="#外键（Foreign-Key）" class="headerlink" title="外键（Foreign Key）"></a>外键（Foreign Key）</h4><p>外键是指向另一个表中的主键，用于建立和维护两个表之间的关系。外键可以帮助确保数据一致性。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders (</span><br><span class="line">    order_id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    user_id <span class="type">INT</span>,</span><br><span class="line">    <span class="keyword">FOREIGN</span> KEY (user_id) <span class="keyword">REFERENCES</span> users(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>orders</code>表中的<code>user_id</code>是外键，它引用了<code>users</code>表中的<code>id</code>列。</p>
+<h4 id="唯一约束（Unique-Constraint）"><a href="#唯一约束（Unique-Constraint）" class="headerlink" title="唯一约束（Unique Constraint）"></a>唯一约束（Unique Constraint）</h4><p>唯一约束确保列中的所有值都是唯一的。它允许空值，但每个非空值都必须是唯一的。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    email <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">UNIQUE</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>email</code>列有唯一约束，确保每个用户的电子邮件地址是唯一的。</p>
+<h4 id="非空约束（NOT-NULL）"><a href="#非空约束（NOT-NULL）" class="headerlink" title="非空约束（NOT NULL）"></a>非空约束（NOT NULL）</h4><p>非空约束用于确保列中的值不能为空。如果一个列有<code>NOT NULL</code>约束，那么在插入或更新数据时，必须提供该列的值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>name</code>列不能为<code>NULL</code>，每个用户都必须有名字。</p>
+<h4 id="检查约束（CHECK-Constraint）"><a href="#检查约束（CHECK-Constraint）" class="headerlink" title="检查约束（CHECK Constraint）"></a>检查约束（CHECK Constraint）</h4><p><code>CHECK</code>约束用于限制列的值范围。例如，确保用户年龄在 18 岁到 100 岁之间：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> users (</span><br><span class="line">    id <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY,</span><br><span class="line">    age <span class="type">INT</span> <span class="keyword">CHECK</span> (age <span class="keyword">BETWEEN</span> <span class="number">18</span> <span class="keyword">AND</span> <span class="number">100</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><strong>聚合查询</strong>：包括常用的聚合函数（<code>AVG</code>、<code>MIN</code>、<code>MAX</code>、<code>SUM</code>、<code>COUNT</code>）及其在<code>GROUP BY</code>和<code>HAVING</code>中的使用，用于对数据进行分组和过滤。</li>
+<li><strong>数据约束</strong>：用于保证数据库中的数据完整性，包括主键、外键、唯一约束、非空约束等。</li>
+</ul>
+<h2 id="联接查询（JOIN-Queries）"><a href="#联接查询（JOIN-Queries）" class="headerlink" title="联接查询（JOIN Queries）"></a>联接查询（JOIN Queries）</h2><p>在 SQL 中，<strong>联接查询</strong>用于将多个表的数据按某种条件结合起来，形成一个包含相关数据的结果集。常见的连接方式有<code>INNER JOIN</code>、<code>LEFT JOIN</code>、<code>RIGHT JOIN</code>、<code>FULL OUTER JOIN</code>等。此外，还有<strong>自连接</strong>和<strong>交叉连接</strong>等特殊用法。</p>
+<hr>
+<h3 id="各种连接方式"><a href="#各种连接方式" class="headerlink" title="各种连接方式"></a>各种连接方式</h3><h4 id="INNER-JOIN（内连接）"><a href="#INNER-JOIN（内连接）" class="headerlink" title="INNER JOIN（内连接）"></a><code>INNER JOIN</code>（内连接）</h4><p><code>INNER JOIN</code>是最常用的连接方式，它返回两个表中匹配的行。如果没有匹配的行，结果中不包含该行。</p>
+<h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><p>假设有两个表：</p>
+<ul>
+<li><code>users</code>表：存储用户信息</li>
+<li><code>orders</code>表：存储订单信息</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> users.name, orders.order_id</span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> orders <span class="keyword">ON</span> users.id <span class="operator">=</span> orders.user_id;</span><br></pre></td></tr></table></figure>
+
+<p>这个查询会返回所有用户和他们的订单，其中<code>users.id</code>和<code>orders.user_id</code>是连接的条件。</p>
+<h4 id="LEFT-JOIN（左外连接）"><a href="#LEFT-JOIN（左外连接）" class="headerlink" title="LEFT JOIN（左外连接）"></a><code>LEFT JOIN</code>（左外连接）</h4><p><code>LEFT JOIN</code>返回左表的所有行，即使右表没有匹配的行。如果右表没有匹配的行，结果中右表的列会显示<code>NULL</code>。</p>
+<h5 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> users.name, orders.order_id</span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> orders <span class="keyword">ON</span> users.id <span class="operator">=</span> orders.user_id;</span><br></pre></td></tr></table></figure>
+
+<p>这个查询会返回所有用户及其订单，如果某个用户没有订单，则<code>orders.order_id</code>列显示<code>NULL</code>。</p>
+<h4 id="RIGHT-JOIN（右外连接）"><a href="#RIGHT-JOIN（右外连接）" class="headerlink" title="RIGHT JOIN（右外连接）"></a><code>RIGHT JOIN</code>（右外连接）</h4><p><code>RIGHT JOIN</code>与<code>LEFT JOIN</code>相似，但它返回右表的所有行，即使左表没有匹配的行。如果左表没有匹配的行，结果中左表的列会显示<code>NULL</code>。</p>
+<h5 id="示例：-2"><a href="#示例：-2" class="headerlink" title="示例："></a>示例：</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> users.name, orders.order_id</span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">JOIN</span> orders <span class="keyword">ON</span> users.id <span class="operator">=</span> orders.user_id;</span><br></pre></td></tr></table></figure>
+
+<p>这个查询会返回所有订单以及与之关联的用户。如果某个订单没有关联的用户，则<code>users.name</code>列显示<code>NULL</code>。</p>
+<h4 id="FULL-OUTER-JOIN（全外连接）"><a href="#FULL-OUTER-JOIN（全外连接）" class="headerlink" title="FULL OUTER JOIN（全外连接）"></a><code>FULL OUTER JOIN</code>（全外连接）</h4><p><code>FULL OUTER JOIN</code>返回左表和右表中的所有行。对于没有匹配的行，左表或右表的列会显示<code>NULL</code>。</p>
+<h5 id="示例：-3"><a href="#示例：-3" class="headerlink" title="示例："></a>示例：</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> users.name, orders.order_id</span><br><span class="line"><span class="keyword">FROM</span> users</span><br><span class="line"><span class="keyword">FULL</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> orders <span class="keyword">ON</span> users.id <span class="operator">=</span> orders.user_id;</span><br></pre></td></tr></table></figure>
+
+<p>这个查询会返回所有用户和所有订单。如果某个用户没有订单，<code>orders.order_id</code>列显示<code>NULL</code>；如果某个订单没有用户，<code>users.name</code>列显示<code>NULL</code>。</p>
+<hr>
+<h3 id="自连接（Self-Join）"><a href="#自连接（Self-Join）" class="headerlink" title="自连接（Self Join）"></a>自连接（Self Join）</h3><p>自连接是指同一个表与其自身进行连接。通常用于表中存储层级或父子关系的数据，比如组织结构、分类结构等。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>假设有一个<code>employees</code>表，其中<code>manager_id</code>字段指向另一个员工的<code>id</code>，表示员工的经理。我们想查询员工及其经理的信息。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.name <span class="keyword">AS</span> employee_name, m.name <span class="keyword">AS</span> manager_name</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> employees m <span class="keyword">ON</span> e.manager_id <span class="operator">=</span> m.id;</span><br></pre></td></tr></table></figure>
+
+<p>在这个查询中，<code>employees</code>表与自身进行连接，<code>e</code>表示员工，<code>m</code>表示经理。</p>
+<hr>
+<h3 id="交叉连接（CROSS-JOIN）"><a href="#交叉连接（CROSS-JOIN）" class="headerlink" title="交叉连接（CROSS JOIN）"></a>交叉连接（CROSS JOIN）</h3><p><code>CROSS JOIN</code>返回左表和右表的笛卡尔积，即左表的每一行与右表的每一行都进行组合。结果集的行数是左表行数与右表行数的乘积。</p>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><p>假设有两个表：<code>products</code>（产品）和<code>colors</code>（颜色）。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> products.product_name, colors.color</span><br><span class="line"><span class="keyword">FROM</span> products</span><br><span class="line"><span class="keyword">CROSS</span> <span class="keyword">JOIN</span> colors;</span><br></pre></td></tr></table></figure>
+
+<p>这个查询会返回所有产品和所有颜色的组合。假设<code>products</code>表有 3 个产品，<code>colors</code>表有 4 个颜色，则结果集将有 12 行。</p>
+<hr>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><ol>
+<li>**<code>INNER JOIN</code>**：返回两个表中匹配的行，不匹配的行会被忽略。</li>
+<li>**<code>LEFT JOIN</code>**：返回左表的所有行，即使右表没有匹配的行，右表没有匹配的地方会显示<code>NULL</code>。</li>
+<li>**<code>RIGHT JOIN</code>**：返回右表的所有行，即使左表没有匹配的行，左表没有匹配的地方会显示<code>NULL</code>。</li>
+<li>**<code>FULL OUTER JOIN</code>**：返回两个表中所有的行，如果某一表没有匹配的行，相关列显示<code>NULL</code>。</li>
+<li><strong>自连接（Self Join）</strong>：表与自身进行连接，通常用于表示层级关系。</li>
+<li><strong>交叉连接（CROSS JOIN）</strong>：返回左表与右表的笛卡尔积，通常用于生成所有可能的组合。</li>
+</ol>
+<h2 id="子查询（Subqueries）"><a href="#子查询（Subqueries）" class="headerlink" title="子查询（Subqueries）"></a>子查询（Subqueries）</h2><p>子查询是嵌套在另一个查询中的查询，用于从另一个查询的结果中提取数据。子查询可以放在<code>SELECT</code>、<code>WHERE</code>、<code>FROM</code>等不同位置，起到过滤、计算、联接等作用。常见的子查询类型包括<strong>标量列子查询</strong>、<strong>行子查询</strong>、<strong>表子查询</strong>等。</p>
+<hr>
+<h3 id="子查询类型"><a href="#子查询类型" class="headerlink" title="子查询类型"></a>子查询类型</h3><h4 id="标量列子查询（Scalar-Subquery）"><a href="#标量列子查询（Scalar-Subquery）" class="headerlink" title="标量列子查询（Scalar Subquery）"></a>标量列子查询（Scalar Subquery）</h4><p>标量列子查询返回一个单一的值，即一个列中的单个值。它通常用于<code>SELECT</code>、<code>WHERE</code>等子句中。</p>
+<h5 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h5><p>假设有两个表：<code>employees</code>和<code>departments</code>，我们希望查询每个部门的员工信息，其中部门的经理 ID 来自<code>departments</code>表。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name, department_id</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> department_id <span class="operator">=</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> department_id</span><br><span class="line">    <span class="keyword">FROM</span> departments</span><br><span class="line">    <span class="keyword">WHERE</span> manager_id <span class="operator">=</span> <span class="number">1001</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在这个查询中，子查询返回<code>manager_id = 1001</code>的部门 ID，然后主查询使用这个部门 ID 来查找相应的员工。</p>
+<h4 id="行子查询（Row-Subquery）"><a href="#行子查询（Row-Subquery）" class="headerlink" title="行子查询（Row Subquery）"></a>行子查询（Row Subquery）</h4><p>行子查询返回一个行数据（多列的值）。通常，行子查询会用于<code>WHERE</code>子句中，并且通过比较操作符（如<code>=</code>、<code>&gt;</code>等）与外部查询进行匹配。</p>
+<h5 id="示例-3"><a href="#示例-3" class="headerlink" title="示例"></a>示例</h5><p>假设有一个<code>employees</code>表和一个<code>salaries</code>表，我们希望找到工资大于某个特定员工的所有员工。我们使用行子查询来获取该员工的<code>salary</code>和<code>department_id</code>。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> (salary, department_id) <span class="operator">&gt;</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> salary, department_id</span><br><span class="line">    <span class="keyword">FROM</span> employees</span><br><span class="line">    <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1001</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在这里，子查询返回员工<code>1001</code>的<code>salary</code>和<code>department_id</code>，外部查询则返回所有工资高于该员工且属于同一部门的员工。</p>
+<h4 id="表子查询（Table-Subquery）"><a href="#表子查询（Table-Subquery）" class="headerlink" title="表子查询（Table Subquery）"></a>表子查询（Table Subquery）</h4><p>表子查询返回多个行和列，通常会在<code>FROM</code>子句中使用。表子查询返回的是一个临时表或结果集，可以像普通的表格一样进行查询。</p>
+<h5 id="示例-4"><a href="#示例-4" class="headerlink" title="示例"></a>示例</h5><p>假设我们想查询每个部门的平均工资。可以使用表子查询来先计算出每个部门的平均工资，然后在外部查询中计算总工资。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> department_id, <span class="built_in">SUM</span>(salary) <span class="keyword">AS</span> total_salary</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> department_id <span class="keyword">IN</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> department_id</span><br><span class="line">    <span class="keyword">FROM</span> departments</span><br><span class="line">    <span class="keyword">WHERE</span> location <span class="operator">=</span> <span class="string">&#x27;New York&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> department_id;</span><br></pre></td></tr></table></figure>
+
+<p>这个查询使用表子查询来获取<code>New York</code>的所有部门 ID，然后外部查询根据这些部门 ID 计算总工资。</p>
+<hr>
+<h3 id="嵌套子查询与相关子查询"><a href="#嵌套子查询与相关子查询" class="headerlink" title="嵌套子查询与相关子查询"></a>嵌套子查询与相关子查询</h3><h4 id="嵌套子查询（Nested-Subquery）"><a href="#嵌套子查询（Nested-Subquery）" class="headerlink" title="嵌套子查询（Nested Subquery）"></a>嵌套子查询（Nested Subquery）</h4><p>嵌套子查询是指子查询本身还可以包含其他的子查询。嵌套子查询可以帮助你进行复杂的查询，通常用于多层数据过滤或计算。</p>
+<h5 id="示例-5"><a href="#示例-5" class="headerlink" title="示例"></a>示例</h5><p>假设有一个<code>employees</code>表和<code>departments</code>表，我们想要找出在所有部门中，工资高于所在部门平均工资的员工。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> salary <span class="operator">&gt;</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> <span class="built_in">AVG</span>(salary)</span><br><span class="line">    <span class="keyword">FROM</span> employees</span><br><span class="line">    <span class="keyword">WHERE</span> department_id <span class="operator">=</span> employees.department_id</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>这里，外部查询返回工资高于其部门平均工资的员工，内部查询计算每个部门的平均工资。</p>
+<h4 id="相关子查询（Correlated-Subquery）"><a href="#相关子查询（Correlated-Subquery）" class="headerlink" title="相关子查询（Correlated Subquery）"></a>相关子查询（Correlated Subquery）</h4><p>相关子查询是指子查询中的条件依赖于外部查询的列。每次外部查询的行都会执行子查询，因此它是一个“逐行”处理的查询。与嵌套子查询不同，相关子查询会在每行执行时使用外部查询的值。</p>
+<h5 id="示例-6"><a href="#示例-6" class="headerlink" title="示例"></a>示例</h5><p>假设有两个表：<code>employees</code>和<code>salaries</code>，我们希望查询所有工资高于其部门平均工资的员工。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">WHERE</span> salary <span class="operator">&gt;</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> <span class="built_in">AVG</span>(salary)</span><br><span class="line">    <span class="keyword">FROM</span> employees</span><br><span class="line">    <span class="keyword">WHERE</span> department_id <span class="operator">=</span> e.department_id</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>在这个查询中，子查询的<code>WHERE</code>子句使用了外部查询的<code>e.department_id</code>，所以每次执行外部查询时，子查询都会根据当前员工的部门计算部门的平均工资。</p>
+<hr>
+<h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><ol>
+<li><strong>标量列子查询</strong>：返回单一值，通常用于<code>WHERE</code>或<code>SELECT</code>中。</li>
+<li><strong>行子查询</strong>：返回一行数据，通常用于<code>WHERE</code>中与外部查询进行比较。</li>
+<li><strong>表子查询</strong>：返回一个完整的结果集，可以在<code>FROM</code>子句中使用。</li>
+<li><strong>嵌套子查询</strong>：子查询中包含另一个子查询，用于复杂的多层查询。</li>
+<li><strong>相关子查询</strong>：子查询依赖外部查询的列，每行数据都会执行子查询。</li>
+</ol>
+<h2 id="SQL-高级函数"><a href="#SQL-高级函数" class="headerlink" title="SQL 高级函数"></a>SQL 高级函数</h2><p>SQL 提供了许多高级函数，用于对数据进行更复杂的操作和处理。常见的高级函数包括<strong>字符串函数</strong>、<strong>日期和时间函数</strong>以及<strong>数值函数</strong>。下面，我们逐一讲解这些函数的用法。</p>
+<hr>
+<h3 id="字符串函数（String-Functions）"><a href="#字符串函数（String-Functions）" class="headerlink" title="字符串函数（String Functions）"></a>字符串函数（String Functions）</h3><p>字符串函数用于对字符串类型的数据进行操作。以下是一些常用的字符串函数：</p>
+<h4 id="CONCAT-：连接字符串"><a href="#CONCAT-：连接字符串" class="headerlink" title="CONCAT()：连接字符串"></a><code>CONCAT()</code>：连接字符串</h4><p><code>CONCAT()</code>函数用于将两个或多个字符串连接成一个字符串。</p>
+<h5 id="示例-7"><a href="#示例-7" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> CONCAT(first_name, <span class="string">&#x27; &#x27;</span>, last_name) <span class="keyword">AS</span> full_name</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>这将返回员工的全名，将<code>first_name</code>和<code>last_name</code>用空格连接起来。</p>
+<h4 id="LENGTH-：字符串长度"><a href="#LENGTH-：字符串长度" class="headerlink" title="LENGTH()：字符串长度"></a><code>LENGTH()</code>：字符串长度</h4><p><code>LENGTH()</code>函数返回字符串中的字符数。</p>
+<h5 id="示例-8"><a href="#示例-8" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> LENGTH(name) <span class="keyword">AS</span> name_length</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询返回员工名字的长度。</p>
+<h4 id="UPPER-：将字符串转换为大写"><a href="#UPPER-：将字符串转换为大写" class="headerlink" title="UPPER()：将字符串转换为大写"></a><code>UPPER()</code>：将字符串转换为大写</h4><p><code>UPPER()</code>函数将字符串中的所有字符转换为大写字母。</p>
+<h5 id="示例-9"><a href="#示例-9" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">UPPER</span>(name) <span class="keyword">AS</span> uppercase_name</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工姓名的全大写形式。</p>
+<h4 id="LOWER-：将字符串转换为小写"><a href="#LOWER-：将字符串转换为小写" class="headerlink" title="LOWER()：将字符串转换为小写"></a><code>LOWER()</code>：将字符串转换为小写</h4><p><code>LOWER()</code>函数将字符串中的所有字符转换为小写字母。</p>
+<h5 id="示例-10"><a href="#示例-10" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">LOWER</span>(name) <span class="keyword">AS</span> lowercase_name</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工姓名的全小写形式。</p>
+<h4 id="SUBSTRING-：提取字符串的一部分"><a href="#SUBSTRING-：提取字符串的一部分" class="headerlink" title="SUBSTRING()：提取字符串的一部分"></a><code>SUBSTRING()</code>：提取字符串的一部分</h4><p><code>SUBSTRING()</code>函数从字符串中提取指定位置的子字符串。</p>
+<h5 id="示例-11"><a href="#示例-11" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(name, <span class="number">1</span>, <span class="number">3</span>) <span class="keyword">AS</span> short_name</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工姓名的前 3 个字符。</p>
+<h4 id="REPLACE-：替换字符串中的内容"><a href="#REPLACE-：替换字符串中的内容" class="headerlink" title="REPLACE()：替换字符串中的内容"></a><code>REPLACE()</code>：替换字符串中的内容</h4><p><code>REPLACE()</code>函数用于替换字符串中的子串。</p>
+<h5 id="示例-12"><a href="#示例-12" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> REPLACE(email, <span class="string">&#x27;example&#x27;</span>, <span class="string">&#x27;newdomain&#x27;</span>) <span class="keyword">AS</span> updated_email</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将替换<code>email</code>中的<code>example</code>为<code>newdomain</code>。</p>
+<hr>
+<h3 id="日期和时间函数（Date-and-Time-Functions）"><a href="#日期和时间函数（Date-and-Time-Functions）" class="headerlink" title="日期和时间函数（Date and Time Functions）"></a>日期和时间函数（Date and Time Functions）</h3><p>日期和时间函数用于处理日期和时间类型的数据，帮助我们进行时间计算、格式化等操作。</p>
+<h4 id="DATE-：提取日期部分"><a href="#DATE-：提取日期部分" class="headerlink" title="DATE()：提取日期部分"></a><code>DATE()</code>：提取日期部分</h4><p><code>DATE()</code>函数从日期时间值中提取出日期部分（年、月、日）。</p>
+<h5 id="示例-13"><a href="#示例-13" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="type">DATE</span>(hire_date) <span class="keyword">AS</span> hire_date_only</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工的入职日期，只保留日期部分（去掉时间部分）。</p>
+<h4 id="TIME-：提取时间部分"><a href="#TIME-：提取时间部分" class="headerlink" title="TIME()：提取时间部分"></a><code>TIME()</code>：提取时间部分</h4><p><code>TIME()</code>函数从日期时间值中提取出时间部分（小时、分钟、秒）。</p>
+<h5 id="示例-14"><a href="#示例-14" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="type">TIME</span>(hire_date) <span class="keyword">AS</span> hire_time</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工入职时间部分。</p>
+<h4 id="DATEPART-：提取日期的特定部分"><a href="#DATEPART-：提取日期的特定部分" class="headerlink" title="DATEPART()：提取日期的特定部分"></a><code>DATEPART()</code>：提取日期的特定部分</h4><p><code>DATEPART()</code>函数用于提取日期中的特定部分（如年、月、日、小时等）。</p>
+<h5 id="示例-15"><a href="#示例-15" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DATEPART(<span class="keyword">YEAR</span>, hire_date) <span class="keyword">AS</span> hire_year</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工入职年份。</p>
+<h4 id="DATEADD-：添加时间间隔"><a href="#DATEADD-：添加时间间隔" class="headerlink" title="DATEADD()：添加时间间隔"></a><code>DATEADD()</code>：添加时间间隔</h4><p><code>DATEADD()</code>函数用于在日期上添加指定的时间间隔（如天、月、年）。</p>
+<h5 id="示例-16"><a href="#示例-16" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DATEADD(<span class="keyword">MONTH</span>, <span class="number">1</span>, hire_date) <span class="keyword">AS</span> next_month_hire</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工入职日期的一个月后的日期。</p>
+<h4 id="DATEDIFF-：计算两个日期之间的差异"><a href="#DATEDIFF-：计算两个日期之间的差异" class="headerlink" title="DATEDIFF()：计算两个日期之间的差异"></a><code>DATEDIFF()</code>：计算两个日期之间的差异</h4><p><code>DATEDIFF()</code>函数计算两个日期之间的差异（通常是天数）。</p>
+<h5 id="示例-17"><a href="#示例-17" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DATEDIFF(<span class="built_in">CURRENT_DATE</span>, hire_date) <span class="keyword">AS</span> days_since_hired</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工入职日期到今天的天数差。</p>
+<hr>
+<h3 id="数值函数（Numeric-Functions）"><a href="#数值函数（Numeric-Functions）" class="headerlink" title="数值函数（Numeric Functions）"></a>数值函数（Numeric Functions）</h3><p>数值函数用于对数值数据进行操作，常见的有四舍五入、取整等函数。</p>
+<h4 id="FLOOR-：向下取整"><a href="#FLOOR-：向下取整" class="headerlink" title="FLOOR()：向下取整"></a><code>FLOOR()</code>：向下取整</h4><p><code>FLOOR()</code>函数将数字向下取整（即舍去小数部分，返回最接近的整数）。</p>
+<h5 id="示例-18"><a href="#示例-18" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">FLOOR</span>(salary) <span class="keyword">AS</span> rounded_salary</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工工资的小数部分被舍弃后的整数部分。</p>
+<h4 id="CEILING-：向上取整"><a href="#CEILING-：向上取整" class="headerlink" title="CEILING()：向上取整"></a><code>CEILING()</code>：向上取整</h4><p><code>CEILING()</code>函数将数字向上取整（即将小数部分向上调整到下一个整数）。</p>
+<h5 id="示例-19"><a href="#示例-19" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">CEILING</span>(salary) <span class="keyword">AS</span> rounded_up_salary</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工工资的小数部分被向上取整后的值。</p>
+<h4 id="ROUND-：四舍五入"><a href="#ROUND-：四舍五入" class="headerlink" title="ROUND()：四舍五入"></a><code>ROUND()</code>：四舍五入</h4><p><code>ROUND()</code>函数将数字四舍五入到指定的小数位数。</p>
+<h5 id="示例-20"><a href="#示例-20" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ROUND(salary, <span class="number">2</span>) <span class="keyword">AS</span> rounded_salary</span><br><span class="line"><span class="keyword">FROM</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回员工工资四舍五入到小数点后两位的结果。</p>
+<h4 id="ABS-：绝对值"><a href="#ABS-：绝对值" class="headerlink" title="ABS()：绝对值"></a><code>ABS()</code>：绝对值</h4><p><code>ABS()</code>函数返回数值的绝对值，即无论原值是正数还是负数，返回其正数值。</p>
+<h5 id="示例-21"><a href="#示例-21" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">ABS</span>(balance) <span class="keyword">AS</span> absolute_balance</span><br><span class="line"><span class="keyword">FROM</span> accounts;</span><br></pre></td></tr></table></figure>
+
+<p>此查询将返回账户余额的绝对值。</p>
+<hr>
+<h3 id="小结-4"><a href="#小结-4" class="headerlink" title="小结"></a>小结</h3><ol>
+<li><p><strong>字符串函数</strong>：</p>
+<ul>
+<li><code>CONCAT()</code>：连接多个字符串。</li>
+<li><code>LENGTH()</code>：返回字符串的长度。</li>
+<li><code>UPPER()</code>：将字符串转换为大写。</li>
+<li><code>LOWER()</code>：将字符串转换为小写。</li>
+<li><code>SUBSTRING()</code>：提取字符串的一部分。</li>
+<li><code>REPLACE()</code>：替换字符串中的子串。</li>
+</ul>
+</li>
+<li><p><strong>日期和时间函数</strong>：</p>
+<ul>
+<li><code>DATE()</code>：提取日期部分。</li>
+<li><code>TIME()</code>：提取时间部分。</li>
+<li><code>DATEPART()</code>：提取日期的特定部分（如年、月、日）。</li>
+<li><code>DATEADD()</code>：在日期上添加时间间隔。</li>
+<li><code>DATEDIFF()</code>：计算两个日期之间的差异。</li>
+</ul>
+</li>
+<li><p><strong>数值函数</strong>：</p>
+<ul>
+<li><code>FLOOR()</code>：向下取整。</li>
+<li><code>CEILING()</code>：向上取整。</li>
+<li><code>ROUND()</code>：四舍五入。</li>
+<li><code>ABS()</code>：绝对值。</li>
+</ul>
+</li>
+</ol>
+<h2 id="视图和索引（Views-and-Indexes）"><a href="#视图和索引（Views-and-Indexes）" class="headerlink" title="视图和索引（Views and Indexes）"></a>视图和索引（Views and Indexes）</h2><p>在 SQL 中，<strong>视图</strong>和<strong>索引</strong>是用来管理和优化数据库的两个重要概念。视图用于简化复杂查询，而索引用于提高查询效率。下面我们详细介绍这两个方面。</p>
+<hr>
+<h3 id="视图（Views）"><a href="#视图（Views）" class="headerlink" title="视图（Views）"></a>视图（Views）</h3><p><strong>视图</strong>是一个虚拟表，它通过<code>SELECT</code>查询结果定义，并不是物理存储的数据。视图使得复杂的查询操作变得简洁，并且可以重复使用查询逻辑。视图可以简化多表联合查询、聚合操作等。</p>
+<h4 id="创建视图（CREATE-VIEW）"><a href="#创建视图（CREATE-VIEW）" class="headerlink" title="创建视图（CREATE VIEW）"></a>创建视图（CREATE VIEW）</h4><p>创建视图时，我们通常定义一个<code>SELECT</code>查询，视图的内容由这个查询的结果决定。</p>
+<h5 id="示例-22"><a href="#示例-22" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> employee_view <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> name, department_id, salary</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> salary <span class="operator">&gt;</span> <span class="number">50000</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个视图<code>employee_view</code>将包含所有薪水大于 50,000 的员工的姓名、部门和薪水信息。你可以像查询表格一样查询视图。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> employee_view;</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改视图（ALTER-VIEW）"><a href="#修改视图（ALTER-VIEW）" class="headerlink" title="修改视图（ALTER VIEW）"></a>修改视图（ALTER VIEW）</h4><p>如果需要修改视图，可以直接重新定义视图的查询逻辑。不同的数据库管理系统可能有不同的方式，但大多数情况下，你需要先删除旧视图，然后创建新的视图。</p>
+<h5 id="示例-23"><a href="#示例-23" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">VIEW</span> IF <span class="keyword">EXISTS</span> employee_view;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> employee_view <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> name, department_id, salary, hire_date</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> salary <span class="operator">&gt;</span> <span class="number">50000</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们删除了旧的视图，并且增加了<code>hire_date</code>字段。</p>
+<h4 id="删除视图（DROP-VIEW）"><a href="#删除视图（DROP-VIEW）" class="headerlink" title="删除视图（DROP VIEW）"></a>删除视图（DROP VIEW）</h4><p>如果不再需要某个视图，可以使用<code>DROP VIEW</code>语句删除它。</p>
+<h5 id="示例-24"><a href="#示例-24" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">VIEW</span> employee_view;</span><br></pre></td></tr></table></figure>
+
+<p>这将删除<code>employee_view</code>视图。</p>
+<hr>
+<h3 id="索引（Indexes）"><a href="#索引（Indexes）" class="headerlink" title="索引（Indexes）"></a>索引（Indexes）</h3><p><strong>索引</strong>是用于提高查询效率的数据结构。它通常用于加速<code>SELECT</code>查询，尤其是在大量数据的情况下。索引通过创建一个指向数据表中相关数据行的指针来加速数据检索。需要注意的是，虽然索引提高了查询效率，但它们也可能减慢数据插入、更新和删除操作。</p>
+<h4 id="创建索引（CREATE-INDEX）"><a href="#创建索引（CREATE-INDEX）" class="headerlink" title="创建索引（CREATE INDEX）"></a>创建索引（CREATE INDEX）</h4><p>索引通常用于频繁查询的列。常见的做法是为<code>WHERE</code>、<code>JOIN</code>、<code>ORDER BY</code>、<code>GROUP BY</code>等操作中经常使用的列创建索引。</p>
+<h5 id="示例-25"><a href="#示例-25" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_department_id <span class="keyword">ON</span> employees(department_id);</span><br></pre></td></tr></table></figure>
+
+<p>这将为<code>employees</code>表中的<code>department_id</code>列创建一个索引。当你在查询中使用<code>department_id</code>时，查询会更高效。</p>
+<h4 id="唯一索引（Unique-Index）"><a href="#唯一索引（Unique-Index）" class="headerlink" title="唯一索引（Unique Index）"></a>唯一索引（Unique Index）</h4><p>如果你希望索引列的值唯一，可以使用<strong>唯一索引</strong>。它不仅加速查询，还确保列中的值唯一。</p>
+<h5 id="示例-26"><a href="#示例-26" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX idx_unique_email <span class="keyword">ON</span> employees(email);</span><br></pre></td></tr></table></figure>
+
+<p>这个索引确保<code>email</code>列中的每个值都是唯一的，并且提高查询效率。</p>
+<h4 id="删除索引（DROP-INDEX）"><a href="#删除索引（DROP-INDEX）" class="headerlink" title="删除索引（DROP INDEX）"></a>删除索引（DROP INDEX）</h4><p>如果索引不再需要，或者为了优化性能，你可以删除它。</p>
+<h5 id="示例-27"><a href="#示例-27" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> INDEX idx_department_id <span class="keyword">ON</span> employees;</span><br></pre></td></tr></table></figure>
+
+<p>这将删除<code>employees</code>表中的<code>idx_department_id</code>索引。</p>
+<h4 id="索引的优化技巧"><a href="#索引的优化技巧" class="headerlink" title="索引的优化技巧"></a>索引的优化技巧</h4><ul>
+<li><p><strong>选择合适的列</strong>：创建索引时，要选择查询中常用的列作为索引。通常，索引适用于主键、外键、<code>WHERE</code>子句中的条件列以及<code>JOIN</code>操作的列。</p>
+</li>
+<li><p><strong>避免过度索引</strong>：过多的索引会导致插入、更新和删除操作变慢，因为每次修改数据时，相关的索引也需要更新。</p>
+</li>
+<li><p><strong>复合索引</strong>：当查询涉及多个列时，可以使用复合索引（多个列的索引）。复合索引可以显著提高多列查询的效率。</p>
+<h5 id="示例-28"><a href="#示例-28" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> INDEX idx_name_department <span class="keyword">ON</span> employees(name, department_id);</span><br></pre></td></tr></table></figure>
+
+<p>这个索引将同时加速根据<code>name</code>和<code>department_id</code>的查询。</p>
+</li>
+<li><p><strong>覆盖索引</strong>：如果索引包含查询所需的所有列，那么数据库可以直接从索引中获取数据，而无需访问实际的表数据。这样的索引称为覆盖索引。</p>
+<p>例如，如果你只查询<code>name</code>和<code>department_id</code>，并且这些列已经在索引中，查询可以直接使用索引，而不必访问表数据。</p>
+</li>
+</ul>
+<hr>
+<h3 id="小结-5"><a href="#小结-5" class="headerlink" title="小结"></a>小结</h3><ol>
+<li><p><strong>视图（Views）</strong>：</p>
+<ul>
+<li><strong>创建视图</strong>：通过<code>CREATE VIEW</code>语句创建虚拟表，简化复杂的查询。</li>
+<li><strong>修改视图</strong>：一般通过删除旧视图并创建新视图来修改。</li>
+<li><strong>删除视图</strong>：使用<code>DROP VIEW</code>删除不再需要的视图。</li>
+</ul>
+</li>
+<li><p><strong>索引（Indexes）</strong>：</p>
+<ul>
+<li><strong>创建索引</strong>：通过<code>CREATE INDEX</code>为表格中的列创建索引，常用于加速查询。</li>
+<li><strong>唯一索引</strong>：确保列中的值唯一，并加速查询。</li>
+<li><strong>删除索引</strong>：使用<code>DROP INDEX</code>删除不再需要的索引。</li>
+<li><strong>优化索引使用</strong>：选择合适的列、避免过度索引、使用复合索引和覆盖索引来优化查询性能。</li>
+</ul>
+</li>
+</ol>
+<h2 id="事务管理（Transaction-Management）"><a href="#事务管理（Transaction-Management）" class="headerlink" title="事务管理（Transaction Management）"></a>事务管理（Transaction Management）</h2><p><strong>事务（Transaction）</strong>是数据库操作的基本单位，通常指一系列数据库操作，它们要么全部执行，要么全部不执行，以确保数据的一致性和完整性。在 SQL 中，事务的管理通常遵循<strong>ACID</strong>特性，并通过一系列操作（如<code>BEGIN</code>、<code>COMMIT</code>、<code>ROLLBACK</code>等）进行控制。</p>
+<hr>
+<h3 id="事务的-ACID-特性"><a href="#事务的-ACID-特性" class="headerlink" title="事务的 ACID 特性"></a>事务的 ACID 特性</h3><p>ACID 是四个用于描述事务特性的首字母缩写：</p>
+<h4 id="A-原子性（Atomicity）"><a href="#A-原子性（Atomicity）" class="headerlink" title="A - 原子性（Atomicity）"></a><strong>A - 原子性（Atomicity）</strong></h4><p>原子性意味着事务中的所有操作要么全部成功执行，要么全部失败回滚。即使在事务执行过程中发生了错误，数据库也会回到事务开始之前的状态。</p>
+<h5 id="示例-29"><a href="#示例-29" class="headerlink" title="示例"></a>示例</h5><p>假设我们有一个转账操作，涉及从账户 A 转账到账户 B。如果其中一个步骤失败，整个转账过程就会失败，数据库会回到初始状态。</p>
+<h4 id="C-一致性（Consistency）"><a href="#C-一致性（Consistency）" class="headerlink" title="C - 一致性（Consistency）"></a><strong>C - 一致性（Consistency）</strong></h4><p>一致性确保事务执行前后，数据库的状态始终符合定义好的规则或约束。例如，银行账户的余额不能为负数。</p>
+<p>在事务开始之前和结束之后，数据库的状态应该是合法的。</p>
+<h4 id="I-隔离性（Isolation）"><a href="#I-隔离性（Isolation）" class="headerlink" title="I - 隔离性（Isolation）"></a><strong>I - 隔离性（Isolation）</strong></h4><p>隔离性确保事务在执行过程中不会受到其他事务的干扰。每个事务都有自己的工作空间，其他事务在它未提交之前看不到它的中间结果。</p>
+<p>SQL 提供了多种隔离级别来控制事务之间的隔离性，后面会详细介绍。</p>
+<h4 id="D-持久性（Durability）"><a href="#D-持久性（Durability）" class="headerlink" title="D - 持久性（Durability）"></a><strong>D - 持久性（Durability）</strong></h4><p>持久性确保事务一旦提交，数据库中的更改会永久保存，不会因为系统崩溃或其他问题而丢失。</p>
+<p>即使系统发生故障，一旦事务提交成功，所做的更改会持久保存在数据库中。</p>
+<hr>
+<h3 id="事务的隔离级别和操作"><a href="#事务的隔离级别和操作" class="headerlink" title="事务的隔离级别和操作"></a>事务的隔离级别和操作</h3><h4 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h4><p>SQL 提供了四种事务隔离级别，用来控制事务之间的交互行为。不同的隔离级别在性能和数据一致性方面做出不同的权衡。</p>
+<ul>
+<li><p><strong>读未提交（Read Uncommitted）</strong>：</p>
+<ul>
+<li>允许事务读取其他事务未提交的数据（脏读）。这种隔离级别性能最好，但数据一致性最差。</li>
+</ul>
+<h5 id="示例-30"><a href="#示例-30" class="headerlink" title="示例"></a>示例</h5><p>事务 A 修改了某数据，但未提交，事务 B 可以读取该数据，导致脏读。</p>
+</li>
+<li><p><strong>读已提交（Read Committed）</strong>：</p>
+<ul>
+<li>事务只能读取其他事务已经提交的数据（没有脏读）。这是大多数数据库的默认隔离级别。</li>
+</ul>
+<h5 id="示例-31"><a href="#示例-31" class="headerlink" title="示例"></a>示例</h5><p>事务 A 修改了某数据并提交后，事务 B 才能读取数据。如果事务 A 未提交，事务 B 无法读取该数据。</p>
+</li>
+<li><p><strong>可重复读（Repeatable Read）</strong>：</p>
+<ul>
+<li>保证在事务执行期间，读取的数据不会被其他事务修改。虽然避免了脏读和不可重复读问题，但可能会发生幻读（即事务读取的行数发生变化）。</li>
+</ul>
+<h5 id="示例-32"><a href="#示例-32" class="headerlink" title="示例"></a>示例</h5><p>事务 A 读取了某行数据，事务 B 不能修改该行直到事务 A 提交。如果事务 A 重复读取相同数据，会得到相同的结果。</p>
+</li>
+<li><p><strong>序列化（Serializable）</strong>：</p>
+<ul>
+<li>这是最严格的隔离级别，事务执行时会像顺序执行一样，完全避免脏读、不可重复读和幻读，但会导致性能下降。</li>
+</ul>
+<h5 id="示例-33"><a href="#示例-33" class="headerlink" title="示例"></a>示例</h5><p>事务 A 和事务 B 都想修改相同的数据，系统会按顺序执行，避免数据冲突。</p>
+</li>
+</ul>
+<h4 id="事务操作（BEGIN、COMMIT、ROLLBACK）"><a href="#事务操作（BEGIN、COMMIT、ROLLBACK）" class="headerlink" title="事务操作（BEGIN、COMMIT、ROLLBACK）"></a>事务操作（<code>BEGIN</code>、<code>COMMIT</code>、<code>ROLLBACK</code>）</h4><p>在 SQL 中，事务的控制通过以下操作来管理：</p>
+<ul>
+<li><p>**<code>BEGIN</code>**：开始一个新的事务。</p>
+<ul>
+<li>在事务开始时，所有的操作将被视为一个整体，直到事务提交或回滚。</li>
+</ul>
+<h5 id="示例-34"><a href="#示例-34" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>**<code>COMMIT</code>**：提交事务。</p>
+<ul>
+<li>一旦<code>COMMIT</code>被执行，事务中的所有更改将永久保存到数据库中，所有其他事务都能看到这些更改。</li>
+</ul>
+<h5 id="示例-35"><a href="#示例-35" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>**<code>ROLLBACK</code>**：回滚事务。</p>
+<ul>
+<li>如果事务执行过程中发生错误，或者需要撤销事务中的所有操作，可以使用<code>ROLLBACK</code>来回滚事务。所有未提交的更改将被撤销，数据库恢复到事务开始之前的状态。</li>
+</ul>
+<h5 id="示例-36"><a href="#示例-36" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ROLLBACK</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="事务的示例"><a href="#事务的示例" class="headerlink" title="事务的示例"></a>事务的示例</h4><p>假设有一个银行系统，涉及从账户 A 向账户 B 转账的操作。我们希望保证这个操作的<strong>原子性</strong>，要么转账成功（提交），要么失败（回滚）。</p>
+<h5 id="示例：转账操作"><a href="#示例：转账操作" class="headerlink" title="示例：转账操作"></a>示例：转账操作</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 从账户A扣除100元</span></span><br><span class="line"><span class="keyword">UPDATE</span> accounts</span><br><span class="line"><span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span></span><br><span class="line"><span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 向账户B存入100元</span></span><br><span class="line"><span class="keyword">UPDATE</span> accounts</span><br><span class="line"><span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span></span><br><span class="line"><span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="string">&#x27;B&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 提交事务，保存更改</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果在过程中发生错误（如余额不足等），可以回滚事务：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 从账户A扣除100元</span></span><br><span class="line"><span class="keyword">UPDATE</span> accounts</span><br><span class="line"><span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">-</span> <span class="number">100</span></span><br><span class="line"><span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果账户A余额不足，回滚事务</span></span><br><span class="line">IF (<span class="keyword">SELECT</span> balance <span class="keyword">FROM</span> accounts <span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="string">&#x27;A&#x27;</span>) <span class="operator">&lt;</span> <span class="number">0</span> <span class="keyword">THEN</span></span><br><span class="line">  <span class="keyword">ROLLBACK</span>;</span><br><span class="line"><span class="keyword">ELSE</span></span><br><span class="line">  <span class="comment">-- 向账户B存入100元</span></span><br><span class="line">  <span class="keyword">UPDATE</span> accounts</span><br><span class="line">  <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span></span><br><span class="line">  <span class="keyword">WHERE</span> account_id <span class="operator">=</span> <span class="string">&#x27;B&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 提交事务，保存更改</span></span><br><span class="line">  <span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">END</span> IF;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="小结-6"><a href="#小结-6" class="headerlink" title="小结"></a>小结</h3><ol>
+<li><p><strong>ACID 特性</strong>：</p>
+<ul>
+<li><strong>原子性</strong>：事务内的所有操作要么全部成功，要么全部失败。</li>
+<li><strong>一致性</strong>：事务执行前后，数据库始终处于一致状态。</li>
+<li><strong>隔离性</strong>：事务在执行过程中不受其他事务干扰。</li>
+<li><strong>持久性</strong>：事务一旦提交，数据更改会永久保存。</li>
+</ul>
+</li>
+<li><p><strong>事务隔离级别</strong>：</p>
+<ul>
+<li><strong>读未提交</strong>：允许脏读，性能最优。</li>
+<li><strong>读已提交</strong>：防止脏读，常见的默认级别。</li>
+<li><strong>可重复读</strong>：防止脏读和不可重复读，但可能发生幻读。</li>
+<li><strong>序列化</strong>：最严格的隔离级别，性能较低。</li>
+</ul>
+</li>
+<li><p><strong>事务操作</strong>：</p>
+<ul>
+<li>**<code>BEGIN</code>**：开始一个事务。</li>
+<li>**<code>COMMIT</code>**：提交事务，保存所有操作。</li>
+<li>**<code>ROLLBACK</code>**：回滚事务，撤销所有操作。</li>
+</ul>
+</li>
+</ol>
+<h2 id="存储过程和性能优化（Stored-Procedures-and-Performance-Optimization）"><a href="#存储过程和性能优化（Stored-Procedures-and-Performance-Optimization）" class="headerlink" title="存储过程和性能优化（Stored Procedures and Performance Optimization）"></a>存储过程和性能优化（Stored Procedures and Performance Optimization）</h2><p>在 SQL 中，<strong>存储过程</strong>（Stored Procedures）和<strong>性能优化</strong>（Performance Optimization）是提高数据库操作效率和管理复杂查询的重要工具。下面我们详细介绍这两个主题。</p>
+<hr>
+<h3 id="查询优化技巧"><a href="#查询优化技巧" class="headerlink" title="查询优化技巧"></a>查询优化技巧</h3><p>SQL 查询优化是提高数据库性能的一个关键部分，涉及多个方面，如减少子查询、优化联接操作等。以下是一些常见的查询优化技巧：</p>
+<h4 id="减少子查询（Subquery-Optimization）"><a href="#减少子查询（Subquery-Optimization）" class="headerlink" title="减少子查询（Subquery Optimization）"></a>减少子查询（Subquery Optimization）</h4><p>子查询可以带来性能问题，尤其是在大量数据的情况下。通过适当的替换子查询为联接（<code>JOIN</code>）或使用其他优化技术，可以提高查询性能。</p>
+<ul>
+<li><strong>避免重复的子查询</strong>：如果子查询被多次引用，可以考虑将其提取为临时表或视图。</li>
+</ul>
+<h5 id="示例-37"><a href="#示例-37" class="headerlink" title="示例"></a>示例</h5><p>使用子查询：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> department_id <span class="keyword">IN</span> (<span class="keyword">SELECT</span> department_id <span class="keyword">FROM</span> departments <span class="keyword">WHERE</span> location <span class="operator">=</span> <span class="string">&#x27;New York&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>优化：<br>将子查询转换为<code>JOIN</code>操作：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.name</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> departments d <span class="keyword">ON</span> e.department_id <span class="operator">=</span> d.department_id</span><br><span class="line"><span class="keyword">WHERE</span> d.location <span class="operator">=</span> <span class="string">&#x27;New York&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这样可以避免多次执行子查询，从而提高查询效率。</p>
+<h4 id="优化联接操作（JOIN-Optimization）"><a href="#优化联接操作（JOIN-Optimization）" class="headerlink" title="优化联接操作（JOIN Optimization）"></a>优化联接操作（JOIN Optimization）</h4><ul>
+<li><strong>使用合适的索引</strong>：对于<code>JOIN</code>操作，确保联接的列（通常是外键列）有索引，以加速查找过程。</li>
+<li>**避免不必要的<code>JOIN</code>**：不要在查询中加入不需要的数据表。仅选择查询中实际需要的表格，减少计算负担。</li>
+</ul>
+<h5 id="示例-38"><a href="#示例-38" class="headerlink" title="示例"></a>示例</h5><p>如果在查询中不需要<code>employees</code>表的所有列，可以只选择需要的列：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> e.name, e.salary, d.department_name</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">JOIN</span> departments d <span class="keyword">ON</span> e.department_id <span class="operator">=</span> d.department_id;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用EXISTS替代IN（优化子查询）"><a href="#使用EXISTS替代IN（优化子查询）" class="headerlink" title="使用EXISTS替代IN（优化子查询）"></a>使用<code>EXISTS</code>替代<code>IN</code>（优化子查询）</h4><p>在某些情况下，<code>EXISTS</code>操作符的性能优于<code>IN</code>，尤其是当子查询返回大量数据时。</p>
+<h5 id="示例-39"><a href="#示例-39" class="headerlink" title="示例"></a>示例</h5><p>原查询使用<code>IN</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name</span><br><span class="line"><span class="keyword">FROM</span> employees</span><br><span class="line"><span class="keyword">WHERE</span> department_id <span class="keyword">IN</span> (<span class="keyword">SELECT</span> department_id <span class="keyword">FROM</span> departments <span class="keyword">WHERE</span> location <span class="operator">=</span> <span class="string">&#x27;New York&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>优化：使用<code>EXISTS</code>：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> name</span><br><span class="line"><span class="keyword">FROM</span> employees e</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">EXISTS</span> (<span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">FROM</span> departments d <span class="keyword">WHERE</span> e.department_id <span class="operator">=</span> d.department_id <span class="keyword">AND</span> d.location <span class="operator">=</span> <span class="string">&#x27;New York&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>EXISTS</code>会在找到第一个匹配的行时就停止查询，因此通常比<code>IN</code>更高效。</p>
+<h4 id="使用合适的聚合函数"><a href="#使用合适的聚合函数" class="headerlink" title="使用合适的聚合函数"></a>使用合适的聚合函数</h4><p>如果你需要执行聚合操作（如<code>SUM()</code>、<code>COUNT()</code>、<code>AVG()</code>等），确保你使用的列上有索引，尤其是在<code>GROUP BY</code>或<code>HAVING</code>条件中使用的列。</p>
+<hr>
+<h3 id="动态-SQL-和递归查询"><a href="#动态-SQL-和递归查询" class="headerlink" title="动态 SQL 和递归查询"></a>动态 SQL 和递归查询</h3><h4 id="动态-SQL（Dynamic-SQL）"><a href="#动态-SQL（Dynamic-SQL）" class="headerlink" title="动态 SQL（Dynamic SQL）"></a>动态 SQL（Dynamic SQL）</h4><p><strong>动态 SQL</strong>是指在运行时构造和执行 SQL 查询的能力。它允许你在程序中动态地生成和执行 SQL 语句，通常用于那些在编译时无法预知的查询。</p>
+<ul>
+<li><strong>用途</strong>：动态 SQL 通常用于处理不同条件、表名或列名的查询，或者当需要动态修改查询语句时非常有用。</li>
+<li><strong>实现</strong>：在 SQL 中，动态 SQL 通常通过<code>EXEC</code>或<code>sp_executesql</code>等机制执行。</li>
+</ul>
+<h5 id="示例：-4"><a href="#示例：-4" class="headerlink" title="示例："></a>示例：</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> <span class="variable">@sql</span> NVARCHAR(MAX)</span><br><span class="line"><span class="keyword">SET</span> <span class="variable">@sql</span> <span class="operator">=</span> N<span class="string">&#x27;SELECT name FROM employees WHERE department_id = @dept_id&#x27;</span></span><br><span class="line"><span class="keyword">EXEC</span> sp_executesql <span class="variable">@sql</span>, N<span class="string">&#x27;@dept_id INT&#x27;</span>, <span class="variable">@dept</span>_id <span class="operator">=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，SQL 查询被动态生成并通过<code>sp_executesql</code>执行。这样，你可以动态地根据输入的条件执行查询。</p>
+<h4 id="递归查询（Recursive-Queries）"><a href="#递归查询（Recursive-Queries）" class="headerlink" title="递归查询（Recursive Queries）"></a>递归查询（Recursive Queries）</h4><p><strong>递归查询</strong>是指查询中自己调用自己，通常用于处理层级数据或树形结构，如组织架构、文件目录等。SQL 提供了<strong>公共表达式（CTE）</strong>来实现递归查询。</p>
+<ul>
+<li><strong><code>WITH</code>子句</strong>：递归查询通常使用<code>WITH</code>子句定义<strong>递归公共表达式（CTE）</strong>，然后在查询中递归地引用它。</li>
+</ul>
+<h5 id="示例-40"><a href="#示例-40" class="headerlink" title="示例"></a>示例</h5><p>假设我们有一个<code>employees</code>表，其中包含员工和他们的经理，表示层级关系。我们希望查询某个经理下的所有员工，包括直接和间接下属。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WITH</span> RecursiveCTE <span class="keyword">AS</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> id, name, manager_id</span><br><span class="line">    <span class="keyword">FROM</span> employees</span><br><span class="line">    <span class="keyword">WHERE</span> manager_id <span class="keyword">IS</span> <span class="keyword">NULL</span>  <span class="comment">-- 根节点（最高层级经理）</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">SELECT</span> e.id, e.name, e.manager_id</span><br><span class="line">    <span class="keyword">FROM</span> employees e</span><br><span class="line">    <span class="keyword">JOIN</span> RecursiveCTE r <span class="keyword">ON</span> e.manager_id <span class="operator">=</span> r.id</span><br><span class="line">)</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> RecursiveCTE;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，递归公共表达式<code>RecursiveCTE</code>从顶级经理（<code>manager_id IS NULL</code>）开始，然后递归地查找所有直接或间接下属。<code>UNION ALL</code>用于将结果合并到一起。</p>
+<h4 id="递归查询的优化"><a href="#递归查询的优化" class="headerlink" title="递归查询的优化"></a>递归查询的优化</h4><p>递归查询可能会导致性能问题，尤其是在大规模数据的情况下。以下是一些优化技巧：</p>
+<ul>
+<li><p><strong>限制递归深度</strong>：通过<code>MAXRECURSION</code>限制递归的最大层数。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OPTION (MAXRECURSION <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这会限制查询最多递归 10 次，以防止无限递归。</p>
+</li>
+<li><p><strong>使用索引</strong>：确保递归查询中涉及的列（如<code>manager_id</code>）有适当的索引，以加速递归过程。</p>
+</li>
+</ul>
+<hr>
+<h3 id="存储过程（Stored-Procedures）"><a href="#存储过程（Stored-Procedures）" class="headerlink" title="存储过程（Stored Procedures）"></a>存储过程（Stored Procedures）</h3><p><strong>存储过程</strong>是预编译的 SQL 语句集合，可以在数据库中定义并多次执行。它通常用于封装复杂的操作，避免重复代码，增加查询的可维护性和性能。</p>
+<h4 id="创建存储过程（CREATE-PROCEDURE）"><a href="#创建存储过程（CREATE-PROCEDURE）" class="headerlink" title="创建存储过程（CREATE PROCEDURE）"></a>创建存储过程（CREATE PROCEDURE）</h4><p>存储过程可以包含输入参数、输出参数，并且可以执行多条 SQL 语句。它通过<code>CREATE PROCEDURE</code>语句创建。</p>
+<h5 id="示例-41"><a href="#示例-41" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> GetEmployeeInfo (<span class="variable">@emp</span>_id <span class="type">INT</span>)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">SELECT</span> name, department_id, salary</span><br><span class="line">    <span class="keyword">FROM</span> employees</span><br><span class="line">    <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="variable">@emp</span>_id;</span><br><span class="line"><span class="keyword">END</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行存储过程（EXECUTE）"><a href="#执行存储过程（EXECUTE）" class="headerlink" title="执行存储过程（EXECUTE）"></a>执行存储过程（EXECUTE）</h4><p>存储过程创建后，可以通过<code>EXEC</code>或<code>EXECUTE</code>来调用执行。</p>
+<h5 id="示例-42"><a href="#示例-42" class="headerlink" title="示例"></a>示例</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXEC</span> GetEmployeeInfo <span class="variable">@emp</span>_id <span class="operator">=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="存储过程的性能优化"><a href="#存储过程的性能优化" class="headerlink" title="存储过程的性能优化"></a>存储过程的性能优化</h4><ul>
+<li><strong>避免使用游标</strong>：尽量避免使用游标（<code>CURSOR</code>），因为它们通常会导致性能问题。尽可能用<code>JOIN</code>或<code>SET</code>操作代替游标。</li>
+<li><strong>使用参数化查询</strong>：通过传递参数来执行存储过程，避免在 SQL 中拼接字符串，这有助于提高性能和安全性。</li>
+<li><strong>避免重复查询</strong>：如果存储过程内有重复的查询，可以考虑优化逻辑或使用临时表、变量等手段来减少查询次数。</li>
+</ul>
+<hr>
+<h3 id="小结-7"><a href="#小结-7" class="headerlink" title="小结"></a>小结</h3><ol>
+<li><p><strong>查询优化技巧</strong>：</p>
+<ul>
+<li>减少子查询，使用联接（<code>JOIN</code>）优化查询。</li>
+<li>优化联接操作，通过合理的索引和选择性减少不必要的联接。</li>
+<li>使用<code>EXISTS</code>替代<code>IN</code>，避免子查询中的性能瓶颈。</li>
+<li>使用合适的聚合函数和索引来加速查询。</li>
+</ul>
+</li>
+<li><p><strong>动态 SQL 和递归查询</strong>：</p>
+<ul>
+<li>动态 SQL 用于在运行时构建和执行查询，适用于灵活的查询需求。</li>
+<li>递归查询通过 CTE（<code>WITH</code>子句）处理层级数据，如员工和经理关系。</li>
+</ul>
+</li>
+<li><p><strong>存储过程</strong>：</p>
+<ul>
+<li>存储过程是一组预编译的 SQL 语句，能够提高代码的可维护性和执行性能。</li>
+<li>优化存储过程时，应避免使用游标，减少重复查询，并利用参数化查询提高性能。</li>
+</ul>
+</li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Learning SQL</p><p><a href="https://1uciuszzz.github.io/2025/02/25/learning-sql/">https://1uciuszzz.github.io/2025/02/25/learning-sql/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>1uciuszzz</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2025-02-25</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2025-02-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/sql/">sql</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=645b3e893f205e001a0bac07&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/7091b65e5d1ddcbe0910fee881942ae.28i7f2ry1zwg.webp" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/08f055037016ad1d64199261cd35930.n3cj80xop28.webp" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2025/02/25/learning-golang/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Learning golang</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2025/02/10/xiaomi-router-ac2100-flash-openwrt/"><span class="level-item">将 openwrt 刷入小米路由器 AC2100</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "a725c5911d25ac3a50d09f5840b3ed39",
+            repo: "1uciuszzz.github.io",
+            owner: "1uciuszzz",
+            clientID: "732d49a32c7a9686268a",
+            clientSecret: "57aca1c407d3120f5deb4f3170aa92a7d8f0b859",
+            admin: ["1uciuszzz"],
+            createIssueManually: false,
+            distractionFreeMode: false,
+            perPage: 20,
+            pagerDirection: "last",
+            
+            
+            enableHotKey: true,
+            language: "zh-CN",
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/50418607.5isa5e6btxo0.webp" alt="1uciuszzz"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">1uciuszzz</p><p class="is-size-6 is-block">Developer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>CN.Wuhan</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">13</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">10</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">21</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/1uciuszzz" target="_blank" rel="me noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/crypto/"><span class="level-start"><span class="level-item">crypto</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/gis/"><span class="level-start"><span class="level-item">gis</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/golang/"><span class="level-start"><span class="level-item">golang</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/new-feature-on-web-platform/"><span class="level-start"><span class="level-item">new feature on web platform</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/openwrt/"><span class="level-start"><span class="level-item">openwrt</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/rust/"><span class="level-start"><span class="level-item">rust</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/sql/"><span class="level-start"><span class="level-item">sql</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/webAssembly/"><span class="level-start"><span class="level-item">webAssembly</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/webgpu/"><span class="level-start"><span class="level-item">webgpu</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/cesium/"><span class="tag">cesium</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/crypto/"><span class="tag">crypto</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gdal/"><span class="tag">gdal</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gis/"><span class="tag">gis</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/golang/"><span class="tag">golang</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/google-io-2023/"><span class="tag">google io 2023</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gpu/"><span class="tag">gpu</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/new-feature/"><span class="tag">new feature</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/openwrt/"><span class="tag">openwrt</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/rust/"><span class="tag">rust</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sha256/"><span class="tag">sha256</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sql/"><span class="tag">sql</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ssr/"><span class="tag">ssr</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tif/"><span class="tag">tif</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tms/"><span class="tag">tms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web/"><span class="tag">web</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web-platform/"><span class="tag">web platform</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webAssembly/"><span class="tag">webAssembly</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webgl/"><span class="tag">webgl</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webgpu/"><span class="tag">webgpu</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/xiaomi-router-ac2100/"><span class="tag">xiaomi-router-ac2100</span><span class="tag">1</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#SQL-基础语法"><span class="level-left"><span class="level-item">1</span><span class="level-item">SQL 基础语法</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#数据类型（Data-Types）"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">数据类型（Data Types）</span></span></a></li><li><a class="level is-mobile" href="#运算符（Operators）"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">运算符（Operators）</span></span></a></li><li><a class="level is-mobile" href="#SQL-关键字（Keywords）"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">SQL 关键字（Keywords）</span></span></a></li><li><a class="level is-mobile" href="#常用的-SQL-语句"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">常用的 SQL 语句</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#SELECT-查询语句"><span class="level-left"><span class="level-item">1.4.1</span><span class="level-item">SELECT 查询语句</span></span></a></li><li><a class="level is-mobile" href="#INSERT-INTO-插入数据"><span class="level-left"><span class="level-item">1.4.2</span><span class="level-item">INSERT INTO 插入数据</span></span></a></li><li><a class="level is-mobile" href="#UPDATE-更新数据"><span class="level-left"><span class="level-item">1.4.3</span><span class="level-item">UPDATE 更新数据</span></span></a></li><li><a class="level is-mobile" href="#DELETE-删除数据"><span class="level-left"><span class="level-item">1.4.4</span><span class="level-item">DELETE 删除数据</span></span></a></li></ul></li><li><a class="level is-mobile" href="#数据定义语言（DDL）"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">数据定义语言（DDL）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#CREATE-创建数据库或表格"><span class="level-left"><span class="level-item">1.5.1</span><span class="level-item">CREATE 创建数据库或表格</span></span></a></li><li><a class="level is-mobile" href="#ALTER-修改表格"><span class="level-left"><span class="level-item">1.5.2</span><span class="level-item">ALTER 修改表格</span></span></a></li><li><a class="level is-mobile" href="#DROP-删除表格或数据库"><span class="level-left"><span class="level-item">1.5.3</span><span class="level-item">DROP 删除表格或数据库</span></span></a></li><li><a class="level is-mobile" href="#TRUNCATE-清空表格"><span class="level-left"><span class="level-item">1.5.4</span><span class="level-item">TRUNCATE 清空表格</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#数据操作：聚合查询与数据约束"><span class="level-left"><span class="level-item">2</span><span class="level-item">数据操作：聚合查询与数据约束</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#聚合查询（Aggregate-Queries）"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">聚合查询（Aggregate Queries）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#聚合函数的使用"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">聚合函数的使用</span></span></a></li><li><a class="level is-mobile" href="#GROUP-BY-语句"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">GROUP BY 语句</span></span></a></li><li><a class="level is-mobile" href="#HAVING-语句"><span class="level-left"><span class="level-item">2.1.3</span><span class="level-item">HAVING 语句</span></span></a></li></ul></li><li><a class="level is-mobile" href="#数据约束（Data-Constraints）"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">数据约束（Data Constraints）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#主键（Primary-Key）"><span class="level-left"><span class="level-item">2.2.1</span><span class="level-item">主键（Primary Key）</span></span></a></li><li><a class="level is-mobile" href="#外键（Foreign-Key）"><span class="level-left"><span class="level-item">2.2.2</span><span class="level-item">外键（Foreign Key）</span></span></a></li><li><a class="level is-mobile" href="#唯一约束（Unique-Constraint）"><span class="level-left"><span class="level-item">2.2.3</span><span class="level-item">唯一约束（Unique Constraint）</span></span></a></li><li><a class="level is-mobile" href="#非空约束（NOT-NULL）"><span class="level-left"><span class="level-item">2.2.4</span><span class="level-item">非空约束（NOT NULL）</span></span></a></li><li><a class="level is-mobile" href="#检查约束（CHECK-Constraint）"><span class="level-left"><span class="level-item">2.2.5</span><span class="level-item">检查约束（CHECK Constraint）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-1"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#联接查询（JOIN-Queries）"><span class="level-left"><span class="level-item">3</span><span class="level-item">联接查询（JOIN Queries）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#各种连接方式"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">各种连接方式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#INNER-JOIN（内连接）"><span class="level-left"><span class="level-item">3.1.1</span><span class="level-item">INNER JOIN（内连接）</span></span></a></li><li><a class="level is-mobile" href="#LEFT-JOIN（左外连接）"><span class="level-left"><span class="level-item">3.1.2</span><span class="level-item">LEFT JOIN（左外连接）</span></span></a></li><li><a class="level is-mobile" href="#RIGHT-JOIN（右外连接）"><span class="level-left"><span class="level-item">3.1.3</span><span class="level-item">RIGHT JOIN（右外连接）</span></span></a></li><li><a class="level is-mobile" href="#FULL-OUTER-JOIN（全外连接）"><span class="level-left"><span class="level-item">3.1.4</span><span class="level-item">FULL OUTER JOIN（全外连接）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#自连接（Self-Join）"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">自连接（Self Join）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#示例"><span class="level-left"><span class="level-item">3.2.1</span><span class="level-item">示例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#交叉连接（CROSS-JOIN）"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">交叉连接（CROSS JOIN）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#示例-1"><span class="level-left"><span class="level-item">3.3.1</span><span class="level-item">示例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-2"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#子查询（Subqueries）"><span class="level-left"><span class="level-item">4</span><span class="level-item">子查询（Subqueries）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#子查询类型"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">子查询类型</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#标量列子查询（Scalar-Subquery）"><span class="level-left"><span class="level-item">4.1.1</span><span class="level-item">标量列子查询（Scalar Subquery）</span></span></a></li><li><a class="level is-mobile" href="#行子查询（Row-Subquery）"><span class="level-left"><span class="level-item">4.1.2</span><span class="level-item">行子查询（Row Subquery）</span></span></a></li><li><a class="level is-mobile" href="#表子查询（Table-Subquery）"><span class="level-left"><span class="level-item">4.1.3</span><span class="level-item">表子查询（Table Subquery）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#嵌套子查询与相关子查询"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">嵌套子查询与相关子查询</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#嵌套子查询（Nested-Subquery）"><span class="level-left"><span class="level-item">4.2.1</span><span class="level-item">嵌套子查询（Nested Subquery）</span></span></a></li><li><a class="level is-mobile" href="#相关子查询（Correlated-Subquery）"><span class="level-left"><span class="level-item">4.2.2</span><span class="level-item">相关子查询（Correlated Subquery）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-3"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#SQL-高级函数"><span class="level-left"><span class="level-item">5</span><span class="level-item">SQL 高级函数</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#字符串函数（String-Functions）"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">字符串函数（String Functions）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#CONCAT-：连接字符串"><span class="level-left"><span class="level-item">5.1.1</span><span class="level-item">CONCAT()：连接字符串</span></span></a></li><li><a class="level is-mobile" href="#LENGTH-：字符串长度"><span class="level-left"><span class="level-item">5.1.2</span><span class="level-item">LENGTH()：字符串长度</span></span></a></li><li><a class="level is-mobile" href="#UPPER-：将字符串转换为大写"><span class="level-left"><span class="level-item">5.1.3</span><span class="level-item">UPPER()：将字符串转换为大写</span></span></a></li><li><a class="level is-mobile" href="#LOWER-：将字符串转换为小写"><span class="level-left"><span class="level-item">5.1.4</span><span class="level-item">LOWER()：将字符串转换为小写</span></span></a></li><li><a class="level is-mobile" href="#SUBSTRING-：提取字符串的一部分"><span class="level-left"><span class="level-item">5.1.5</span><span class="level-item">SUBSTRING()：提取字符串的一部分</span></span></a></li><li><a class="level is-mobile" href="#REPLACE-：替换字符串中的内容"><span class="level-left"><span class="level-item">5.1.6</span><span class="level-item">REPLACE()：替换字符串中的内容</span></span></a></li></ul></li><li><a class="level is-mobile" href="#日期和时间函数（Date-and-Time-Functions）"><span class="level-left"><span class="level-item">5.2</span><span class="level-item">日期和时间函数（Date and Time Functions）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#DATE-：提取日期部分"><span class="level-left"><span class="level-item">5.2.1</span><span class="level-item">DATE()：提取日期部分</span></span></a></li><li><a class="level is-mobile" href="#TIME-：提取时间部分"><span class="level-left"><span class="level-item">5.2.2</span><span class="level-item">TIME()：提取时间部分</span></span></a></li><li><a class="level is-mobile" href="#DATEPART-：提取日期的特定部分"><span class="level-left"><span class="level-item">5.2.3</span><span class="level-item">DATEPART()：提取日期的特定部分</span></span></a></li><li><a class="level is-mobile" href="#DATEADD-：添加时间间隔"><span class="level-left"><span class="level-item">5.2.4</span><span class="level-item">DATEADD()：添加时间间隔</span></span></a></li><li><a class="level is-mobile" href="#DATEDIFF-：计算两个日期之间的差异"><span class="level-left"><span class="level-item">5.2.5</span><span class="level-item">DATEDIFF()：计算两个日期之间的差异</span></span></a></li></ul></li><li><a class="level is-mobile" href="#数值函数（Numeric-Functions）"><span class="level-left"><span class="level-item">5.3</span><span class="level-item">数值函数（Numeric Functions）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#FLOOR-：向下取整"><span class="level-left"><span class="level-item">5.3.1</span><span class="level-item">FLOOR()：向下取整</span></span></a></li><li><a class="level is-mobile" href="#CEILING-：向上取整"><span class="level-left"><span class="level-item">5.3.2</span><span class="level-item">CEILING()：向上取整</span></span></a></li><li><a class="level is-mobile" href="#ROUND-：四舍五入"><span class="level-left"><span class="level-item">5.3.3</span><span class="level-item">ROUND()：四舍五入</span></span></a></li><li><a class="level is-mobile" href="#ABS-：绝对值"><span class="level-left"><span class="level-item">5.3.4</span><span class="level-item">ABS()：绝对值</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-4"><span class="level-left"><span class="level-item">5.4</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#视图和索引（Views-and-Indexes）"><span class="level-left"><span class="level-item">6</span><span class="level-item">视图和索引（Views and Indexes）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#视图（Views）"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">视图（Views）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#创建视图（CREATE-VIEW）"><span class="level-left"><span class="level-item">6.1.1</span><span class="level-item">创建视图（CREATE VIEW）</span></span></a></li><li><a class="level is-mobile" href="#修改视图（ALTER-VIEW）"><span class="level-left"><span class="level-item">6.1.2</span><span class="level-item">修改视图（ALTER VIEW）</span></span></a></li><li><a class="level is-mobile" href="#删除视图（DROP-VIEW）"><span class="level-left"><span class="level-item">6.1.3</span><span class="level-item">删除视图（DROP VIEW）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#索引（Indexes）"><span class="level-left"><span class="level-item">6.2</span><span class="level-item">索引（Indexes）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#创建索引（CREATE-INDEX）"><span class="level-left"><span class="level-item">6.2.1</span><span class="level-item">创建索引（CREATE INDEX）</span></span></a></li><li><a class="level is-mobile" href="#唯一索引（Unique-Index）"><span class="level-left"><span class="level-item">6.2.2</span><span class="level-item">唯一索引（Unique Index）</span></span></a></li><li><a class="level is-mobile" href="#删除索引（DROP-INDEX）"><span class="level-left"><span class="level-item">6.2.3</span><span class="level-item">删除索引（DROP INDEX）</span></span></a></li><li><a class="level is-mobile" href="#索引的优化技巧"><span class="level-left"><span class="level-item">6.2.4</span><span class="level-item">索引的优化技巧</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-5"><span class="level-left"><span class="level-item">6.3</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#事务管理（Transaction-Management）"><span class="level-left"><span class="level-item">7</span><span class="level-item">事务管理（Transaction Management）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#事务的-ACID-特性"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">事务的 ACID 特性</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#A-原子性（Atomicity）"><span class="level-left"><span class="level-item">7.1.1</span><span class="level-item">A - 原子性（Atomicity）</span></span></a></li><li><a class="level is-mobile" href="#C-一致性（Consistency）"><span class="level-left"><span class="level-item">7.1.2</span><span class="level-item">C - 一致性（Consistency）</span></span></a></li><li><a class="level is-mobile" href="#I-隔离性（Isolation）"><span class="level-left"><span class="level-item">7.1.3</span><span class="level-item">I - 隔离性（Isolation）</span></span></a></li><li><a class="level is-mobile" href="#D-持久性（Durability）"><span class="level-left"><span class="level-item">7.1.4</span><span class="level-item">D - 持久性（Durability）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#事务的隔离级别和操作"><span class="level-left"><span class="level-item">7.2</span><span class="level-item">事务的隔离级别和操作</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#事务的隔离级别"><span class="level-left"><span class="level-item">7.2.1</span><span class="level-item">事务的隔离级别</span></span></a></li><li><a class="level is-mobile" href="#事务操作（BEGIN、COMMIT、ROLLBACK）"><span class="level-left"><span class="level-item">7.2.2</span><span class="level-item">事务操作（BEGIN、COMMIT、ROLLBACK）</span></span></a></li><li><a class="level is-mobile" href="#事务的示例"><span class="level-left"><span class="level-item">7.2.3</span><span class="level-item">事务的示例</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-6"><span class="level-left"><span class="level-item">7.3</span><span class="level-item">小结</span></span></a></li></ul></li><li><a class="level is-mobile" href="#存储过程和性能优化（Stored-Procedures-and-Performance-Optimization）"><span class="level-left"><span class="level-item">8</span><span class="level-item">存储过程和性能优化（Stored Procedures and Performance Optimization）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#查询优化技巧"><span class="level-left"><span class="level-item">8.1</span><span class="level-item">查询优化技巧</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#减少子查询（Subquery-Optimization）"><span class="level-left"><span class="level-item">8.1.1</span><span class="level-item">减少子查询（Subquery Optimization）</span></span></a></li><li><a class="level is-mobile" href="#优化联接操作（JOIN-Optimization）"><span class="level-left"><span class="level-item">8.1.2</span><span class="level-item">优化联接操作（JOIN Optimization）</span></span></a></li><li><a class="level is-mobile" href="#使用EXISTS替代IN（优化子查询）"><span class="level-left"><span class="level-item">8.1.3</span><span class="level-item">使用EXISTS替代IN（优化子查询）</span></span></a></li><li><a class="level is-mobile" href="#使用合适的聚合函数"><span class="level-left"><span class="level-item">8.1.4</span><span class="level-item">使用合适的聚合函数</span></span></a></li></ul></li><li><a class="level is-mobile" href="#动态-SQL-和递归查询"><span class="level-left"><span class="level-item">8.2</span><span class="level-item">动态 SQL 和递归查询</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#动态-SQL（Dynamic-SQL）"><span class="level-left"><span class="level-item">8.2.1</span><span class="level-item">动态 SQL（Dynamic SQL）</span></span></a></li><li><a class="level is-mobile" href="#递归查询（Recursive-Queries）"><span class="level-left"><span class="level-item">8.2.2</span><span class="level-item">递归查询（Recursive Queries）</span></span></a></li><li><a class="level is-mobile" href="#递归查询的优化"><span class="level-left"><span class="level-item">8.2.3</span><span class="level-item">递归查询的优化</span></span></a></li></ul></li><li><a class="level is-mobile" href="#存储过程（Stored-Procedures）"><span class="level-left"><span class="level-item">8.3</span><span class="level-item">存储过程（Stored Procedures）</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#创建存储过程（CREATE-PROCEDURE）"><span class="level-left"><span class="level-item">8.3.1</span><span class="level-item">创建存储过程（CREATE PROCEDURE）</span></span></a></li><li><a class="level is-mobile" href="#执行存储过程（EXECUTE）"><span class="level-left"><span class="level-item">8.3.2</span><span class="level-item">执行存储过程（EXECUTE）</span></span></a></li><li><a class="level is-mobile" href="#存储过程的性能优化"><span class="level-left"><span class="level-item">8.3.3</span><span class="level-item">存储过程的性能优化</span></span></a></li></ul></li><li><a class="level is-mobile" href="#小结-7"><span class="level-left"><span class="level-item">8.4</span><span class="level-item">小结</span></span></a></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><figure class="media-left"><a class="image" href="/2025/02/25/learning-golang/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/red-374318_1280.wiozl4s6a.webp" alt="Learning golang"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-02-25T06:55:38.000Z">2025-02-25</time></p><p class="title"><a href="/2025/02/25/learning-golang/">Learning golang</a></p><p class="categories"><a href="/categories/golang/">golang</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/02/25/learning-sql/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/nature-3082832_1280.7zqkf66k6i.webp" alt="Learning SQL"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-02-25T06:22:04.000Z">2025-02-25</time></p><p class="title"><a href="/2025/02/25/learning-sql/">Learning SQL</a></p><p class="categories"><a href="/categories/sql/">sql</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2025/02/10/xiaomi-router-ac2100-flash-openwrt/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/a-field-with-hay-bales-1a.67xkyswzar.webp" alt="将 openwrt 刷入小米路由器 AC2100"></a></figure><div class="media-content"><p class="date"><time dateTime="2025-02-10T03:41:23.000Z">2025-02-10</time></p><p class="title"><a href="/2025/02/10/xiaomi-router-ac2100-flash-openwrt/">将 openwrt 刷入小米路由器 AC2100</a></p><p class="categories"><a href="/categories/openwrt/">openwrt</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2024/11/29/rust-references-ownership-borrowing/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.pfdm3hkr8.webp" alt="rust 引用 所有权 借用"></a></figure><div class="media-content"><p class="date"><time dateTime="2024-11-29T01:27:06.000Z">2024-11-29</time></p><p class="title"><a href="/2024/11/29/rust-references-ownership-borrowing/">rust 引用 所有权 借用</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2024/04/03/new-to-the-web-platform-in-24-march/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.6f0gf2bh9r.jpg" alt="2024年3月份Web平台新增功能"></a></figure><div class="media-content"><p class="date"><time dateTime="2024-04-03T08:24:50.000Z">2024-04-03</time></p><p class="title"><a href="/2024/04/03/new-to-the-web-platform-in-24-march/">2024年3月份Web平台新增功能</a></p><p class="categories"><a href="/categories/new-feature-on-web-platform/">new feature on web platform</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">二月 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">十一月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">四月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">一月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">十二月 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/09/"><span class="level-start"><span class="level-item">九月 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/05/"><span class="level-start"><span class="level-item">五月 2023</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2025 1uciuszzz</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
