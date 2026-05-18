@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>This Week in Rust 651 - 深度总结 - lucius&#039;s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="lucius&#039;s blog"><meta name="msapplication-TileImage" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="lucius&#039;s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" sizes="192x192" href="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><meta name="description" content="This Week in Rust 651 - 深度总结 原文发布于 2026年5月13日 | 本期共合并502个PR | 原文链接"><meta property="og:type" content="blog"><meta property="og:title" content="This Week in Rust 651 - 深度总结"><meta property="og:url" content="https://1uciuszzz.github.io/2026/05/13/this-week-in-rust-651-summary/"><meta property="og:site_name" content="lucius&#039;s blog"><meta property="og:description" content="This Week in Rust 651 - 深度总结 原文发布于 2026年5月13日 | 本期共合并502个PR | 原文链接"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp"><meta property="article:published_time" content="2026-05-13T08:49:53.000Z"><meta property="article:modified_time" content="2026-05-13T08:49:53.000Z"><meta property="article:author" content="1uciuszzz"><meta property="article:tag" content="rust"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://1uciuszzz.github.io/2026/05/13/this-week-in-rust-651-summary/"},"headline":"This Week in Rust 651 - 深度总结","image":["https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp"],"datePublished":"2026-05-13T08:49:53.000Z","dateModified":"2026-05-13T08:49:53.000Z","author":{"@type":"Person","name":"1uciuszzz"},"publisher":{"@type":"Organization","name":"lucius's blog","logo":{"@type":"ImageObject","url":"https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"}},"description":"This Week in Rust 651 - 深度总结 原文发布于 2026年5月13日 | 本期共合并502个PR | 原文链接"}</script><link rel="canonical" href="https://1uciuszzz.github.io/2026/05/13/this-week-in-rust-651-summary/"><link rel="icon" href="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600&amp;family=Roboto+Mono"><link data-pjax rel="stylesheet" href="/css/cyberpunk.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp" alt="This Week in Rust 651 - 深度总结"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2026-05-13T08:49:53.000Z" title="2026/5/13 16:49:53">2026-05-13</time>发表</span><span class="level-item"><time dateTime="2026-05-13T08:49:53.000Z" title="2026/5/13 16:49:53">2026-05-13</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/rust/">rust</a></span><span class="level-item">25 分钟读完 (大约3783个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">This Week in Rust 651 - 深度总结</h1><div class="content"><h1 id="This-Week-in-Rust-651-深度总结"><a href="#This-Week-in-Rust-651-深度总结" class="headerlink" title="This Week in Rust 651 - 深度总结"></a>This Week in Rust 651 - 深度总结</h1><blockquote>
+<p>原文发布于 2026年5月13日 | 本期共合并502个PR | <a target="_blank" rel="noopener" href="https://this-week-in-rust.org/blog/2026/05/13/this-week-in-rust-651">原文链接</a></p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#%E7%A4%BE%E5%8C%BA%E6%9B%B4%E6%96%B0">社区更新</a></li>
+<li><a href="#%E6%9C%AC%E6%9C%9F%E7%B2%BE%E9%80%89%E6%96%87%E7%AB%A0">本期精选文章</a></li>
+<li><a href="#rust-%E9%A1%B9%E7%9B%AE%E6%9B%B4%E6%96%B0">Rust 项目更新</a></li>
+<li><a href="#%E6%9C%AC%E6%9C%9F-crate">本期 Crate</a></li>
+<li><a href="#rfc-%E5%8A%A8%E6%80%81">RFC 动态</a></li>
+<li><a href="#%E5%8D%B3%E5%B0%86%E5%88%B0%E6%9D%A5%E7%9A%84%E6%B4%BB%E5%8A%A8">即将到来的活动</a></li>
+<li><a href="#%E6%9C%AC%E5%91%A8%E9%87%91%E5%8F%A5">本周金句</a></li>
+</ol>
+<hr>
+<h2 id="社区更新"><a href="#社区更新" class="headerlink" title="社区更新"></a>社区更新</h2><h3 id="Rust-基金会：开源可持续性危机联合行动"><a href="#Rust-基金会：开源可持续性危机联合行动" class="headerlink" title="Rust 基金会：开源可持续性危机联合行动"></a>Rust 基金会：开源可持续性危机联合行动</h3><p>Rust 基金会宣布作为创始成员加入 Linux 基金会旗下的 <strong>“Sustaining Package Registries Working Group”（可持续包注册表工作组）</strong>。2025年全球包下载量逼近 <strong>10万亿次</strong>，AI驱动的需求、机器人流量、自动化发布和安全事件急剧增长，暴露了包注册表可持续性的巨大缺口。</p>
+<p>工作组核心目标包括：</p>
+<ul>
+<li><strong>经济可持续性</strong>：开发可被注册表采用的资金模型</li>
+<li><strong>集体防御</strong>：跨注册表协调安全实践与信息共享</li>
+<li><strong>治理赋能</strong>：制定共享政策框架与标准化条款</li>
+<li><strong>生态教育</strong>：提升社区对注册表可持续性努力的理解</li>
+</ul>
+<p>Rust 基金会执行董事 Dr. Rebecca Rumbul 表示：”Rust 被设计用来让软件更安全、更可靠，但这一承诺依赖 crates.io 保持可信和资源充足。”</p>
+<hr>
+<h2 id="本期精选文章"><a href="#本期精选文章" class="headerlink" title="本期精选文章"></a>本期精选文章</h2><h3 id="1-杀死一只-Cow——我的-JSON-格式化器提速42"><a href="#1-杀死一只-Cow——我的-JSON-格式化器提速42" class="headerlink" title="1. 杀死一只 Cow——我的 JSON 格式化器提速42%"></a>1. 杀死一只 <code>Cow</code>——我的 JSON 格式化器提速42%</h3><p><strong>作者</strong>：Jacob Asper | <a target="_blank" rel="noopener" href="https://jacobasper.com/blog/killing-a-cow-made-my-json-formatter-42-percent-faster/">原文</a></p>
+<p>这是一篇精彩的性能优化实战，作者通过消除 <code>Cow&lt;str&gt;</code> 的开销，将一个 JSON 格式化器提速了42%。</p>
+<h4 id="核心发现"><a href="#核心发现" class="headerlink" title="核心发现"></a>核心发现</h4><ul>
+<li><strong><code>Cow&lt;str&gt;</code> 的隐藏成本</strong>：即使 <code>Cow::Borrowed</code> 不分配内存，它的 <code>Drop</code> 检查仍占程序指令的20%。每个 <code>Token</code> 变体都需要执行清理分支——即使它不持有数据。</li>
+<li><strong>状态机拆分</strong>：将数字解析状态机拆成 <code>MantissaState</code> 和 <code>ExponentState</code>，让 CPU 一次缓存读取就能获取完整状态（从88字节缩减到适合64字节缓存行）。</li>
+</ul>
+<h4 id="迭代过程"><a href="#迭代过程" class="headerlink" title="迭代过程"></a>迭代过程</h4><table>
+<thead>
+<tr>
+<th>迭代</th>
+<th>方案</th>
+<th>strings+deep nesting 吞吐量</th>
+<th>变化</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基线</td>
+<td>单个 <code>Cow&lt;str&gt;</code></td>
+<td>229.5 MB&#x2F;s</td>
+<td>-</td>
+</tr>
+<tr>
+<td>迭代1</td>
+<td>2个 <code>Cow&lt;str&gt;</code> (mantissa + exponent)</td>
+<td>~214 MB&#x2F;s</td>
+<td>-6.7%</td>
+</tr>
+<tr>
+<td>迭代2</td>
+<td>改为 <code>&amp;str</code></td>
+<td>~341 MB&#x2F;s</td>
+<td>+32%</td>
+</tr>
+<tr>
+<td>迭代3</td>
+<td>拆分 Mantissa&#x2F;Exponent 变体</td>
+<td>~357 MB&#x2F;s</td>
+<td>+4.5%</td>
+</tr>
+<tr>
+<td>最终</td>
+<td>拆分状态机</td>
+<td>325.5 MB&#x2F;s</td>
+<td><strong>+42%</strong></td>
+</tr>
+</tbody></table>
+<h4 id="关键启示"><a href="#关键启示" class="headerlink" title="关键启示"></a>关键启示</h4><ul>
+<li>CPU 缓存行是64字节——token 大小小于32字节时，CPU一次读取可处理2个 token</li>
+<li>大多数场景下（混合数据类型），性能提升显著（many objects +18.5%，deep nesting +49.4%）</li>
+<li>唯一的性能回退是纯浮点数数据集（-3.7%），在典型混合数据场景下是可接受的权衡</li>
+</ul>
+<hr>
+<h3 id="2-mpsc-通道的隐藏内存成本"><a href="#2-mpsc-通道的隐藏内存成本" class="headerlink" title="2. mpsc 通道的隐藏内存成本"></a>2. mpsc 通道的隐藏内存成本</h3><p><strong>作者</strong>：howardjohn | <a target="_blank" rel="noopener" href="https://blog.howardjohn.info/posts/mpsc-cost/">原文</a></p>
+<p>作者在优化其 Rust 反向代理 <a target="_blank" rel="noopener" href="https://agentgateway.dev/">agentgateway</a> 内存使用时，发现 Tokio <code>mpsc</code> 通道的惊人内存开销。</p>
+<h4 id="核心发现-1"><a href="#核心发现-1" class="headerlink" title="核心发现"></a>核心发现</h4><ul>
+<li>Tokio 的 <code>mpsc::channel::&lt;T&gt;(N)</code> 的<strong>初始分配与 capacity 参数 N 无关</strong></li>
+<li>实际初始分配 &#x3D; <code>(sizeof(T) * 32) + 544</code> 字节</li>
+<li>根源：Tokio 内部以 <strong><code>Block</code></strong> 为单位管理通道，每个 Block 硬编码存放 <strong>32</strong> 个元素</li>
+</ul>
+<h4 id="实际数据"><a href="#实际数据" class="headerlink" title="实际数据"></a>实际数据</h4><table>
+<thead>
+<tr>
+<th>消息大小</th>
+<th>capacity</th>
+<th>创建后堆分配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8 B</td>
+<td>1</td>
+<td>800 B</td>
+</tr>
+<tr>
+<td>128 B</td>
+<td>1</td>
+<td>4,640 B</td>
+</tr>
+<tr>
+<td>1024 B</td>
+<td>1</td>
+<td><strong>33,312 B</strong></td>
+</tr>
+<tr>
+<td>1024 B</td>
+<td>1024</td>
+<td>33,312 B (初始相同)</td>
+</tr>
+</tbody></table>
+<h4 id="真实世界影响"><a href="#真实世界影响" class="headerlink" title="真实世界影响"></a>真实世界影响</h4><ol>
+<li><strong>数千个小型通道</strong>（每条消息24字节）：每个通道占1,312字节。切换到 <code>futures-channel</code>（每次只分配一个 T）后，整体内存减半。</li>
+<li><strong>Hyper 连接</strong>（每个请求约250字节）：每个 HTTP 连接额外浪费 8KB（250×32），Hyper 已在 <a target="_blank" rel="noopener" href="https://github.com/hyperium/hyper/issues/4057">Issue #4057</a> 追踪此问题。</li>
+</ol>
+<hr>
+<h3 id="3-构建高性能-Rust-Profiler-的经验教训"><a href="#3-构建高性能-Rust-Profiler-的经验教训" class="headerlink" title="3. 构建高性能 Rust Profiler 的经验教训"></a>3. 构建高性能 Rust Profiler 的经验教训</h3><p><strong>作者</strong>：Paweł Urbanek | <a target="_blank" rel="noopener" href="https://pawelurbanek.com/rust-performance-profiling">原文</a></p>
+<p><a target="_blank" rel="noopener" href="https://hotpath.rs/">hotpath-rs</a> 作者分享了过去6个月构建该 profiler 的深度技术细节（已超过 10 万下载）。</p>
+<h4 id="核心设计理念"><a href="#核心设计理念" class="headerlink" title="核心设计理念"></a>核心设计理念</h4><p>不同的性能信号讲述不同的故事。<code>hotpath</code> 将三种信号合并到一份报告中：</p>
+<ul>
+<li><strong>Timing</strong>（挂钟时间）：显示异步 I&#x2F;O 等待，CPU profiler 无法捕获</li>
+<li><strong>Alloc</strong>（内存分配）：细粒度归因每个函数的分配字节数</li>
+<li><strong>CPU</strong>（CPU采样）：集成 <code>samply</code>，显示 CPU 真正”烧”在哪里</li>
+</ul>
+<h4 id="关键技术挑战与解决方案"><a href="#关键技术挑战与解决方案" class="headerlink" title="关键技术挑战与解决方案"></a>关键技术挑战与解决方案</h4><p><strong>1. MPSC 通道瓶颈</strong></p>
+<ul>
+<li>问题：即使每微秒发送一次数据，<code>crossbeam-channel</code> 的 <code>select!</code> 宏也会让接收线程进入 <code>parked</code> 状态，导致 <code>Thread::unpark</code> 占 CPU 时间22%</li>
+<li>解决：每个线程批量发送测量数据，将单次测量开销从 ~500ns 降至 ~80ns</li>
+</ul>
+<p><strong>2. Alloc CPU 缓存行争用</strong></p>
+<ul>
+<li>问题：多线程环境下，未对齐的 <code>ThreadAllocStats</code> 结构体导致严重的缓存伪共享</li>
+<li>解决：添加 <code>#[repr(align(64))]</code>（缓存行填充），8线程场景下性能提升 <strong>86%</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">线程数  优化前      优化后      改善</span><br><span class="line">1       ~210ms     ~210ms      0%</span><br><span class="line">2       ~720ms     ~215ms      70%</span><br><span class="line">8       ~3700ms    ~500ms      86%</span><br><span class="line">12      ~4400ms    ~660ms      85%</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 异步函数内存追踪</strong></p>
+<ul>
+<li>问题：异步函数可能在多个线程间迁移，导致 thread_local 数据混乱</li>
+<li>解决：将 instrumented 函数包装为 <code>InstrumentedFuture</code>，在每次 <code>poll()</code> 调用时同步执行 push&#x2F;pop 分配栈</li>
+</ul>
+<p><strong>4. CPU采样符号解析</strong></p>
+<ul>
+<li>从二进制文件中提取符号地址范围（使用 <code>object</code> crate）</li>
+<li>通过 <code>samply</code> 的 JSON 输出（<code>hp.json.gz</code>）手动解析栈帧链表来归因 CPU 样本</li>
+<li>支持 exclusive（仅叶子函数）和 inclusive（含父函数）两种归因模式</li>
+<li>使用 <code>threadCPUDelta</code> 而非采样计数来计算 CPU 百分比，避免将”parked”状态的线程误归因为高 CPU 使用</li>
+</ul>
+<hr>
+<h3 id="4-Bun-的-Rust-重写计划：为什么-Zig-不够安全"><a href="#4-Bun-的-Rust-重写计划：为什么-Zig-不够安全" class="headerlink" title="4. Bun 的 Rust 重写计划：为什么 Zig 不够安全"></a>4. Bun 的 Rust 重写计划：为什么 Zig 不够安全</h3><p><strong>来源</strong>：Bun 仓库 <a target="_blank" rel="noopener" href="https://github.com/oven-sh/bun/blob/eeb4d9fdf6e9a7bdd45388d7f3a03dcf570839ad/docs/rust-rewrite-plan.md">rust-rewrite-plan.md</a></p>
+<p>Bun 的创始人 Jarred Sumner 发布了一份 <strong>924行</strong>的增量重写计划，计划将约 <strong>70.5万行 Zig 代码</strong>逐步迁移到 Rust。</p>
+<h4 id="为什么重写？"><a href="#为什么重写？" class="headerlink" title="为什么重写？"></a>为什么重写？</h4><p>对最近150个已合并 PR 的分析揭示了惊人数据：</p>
+<table>
+<thead>
+<tr>
+<th>Bug 类别</th>
+<th>数量</th>
+<th>Rust 能防止？</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>错误路径遗漏清理</td>
+<td>50</td>
+<td>✅ <code>Drop</code></td>
+</tr>
+<tr>
+<td>Use-after-free &#x2F; 悬垂指针</td>
+<td>19</td>
+<td>✅ 所有权&#x2F;Borrow Checker</td>
+</tr>
+<tr>
+<td>未初始化&#x2F;类型混淆</td>
+<td>6</td>
+<td>✅ 不可初始化 + exhaustive match</td>
+</tr>
+<tr>
+<td>边界&#x2F;整数溢出</td>
+<td>18</td>
+<td>⚠️ panic 而非 UB</td>
+</tr>
+<tr>
+<td>竞态&#x2F;重入</td>
+<td>15</td>
+<td>⚠️ 部分</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>108&#x2F;150 个 PR</strong> 是内存安全相关的</li>
+<li><strong>75个 Bug</strong> 在有析构函数、移动语义和借用检查的语言中无法编译</li>
+<li><strong>每3个PR就有1个</strong>是”错误路径遗漏释放”</li>
+</ul>
+<blockquote>
+<p>“The Zig bugs are exactly the destructor&#x2F;ownership-fixable kind, and the C++ side is already near the floor.”<br>—— Zig 的 Bug 恰好是析构函数&#x2F;所有权可以修复的那一类，而 C++ 端已接近地板的残余类别。</p>
+</blockquote>
+<h4 id="迁移策略"><a href="#迁移策略" class="headerlink" title="迁移策略"></a>迁移策略</h4><p>采用 <strong>“绞杀榕”迁移</strong>（strangler-fig migration）：</p>
+<ul>
+<li>Zig 和 Rust 链接到同一个二进制文件</li>
+<li>C++ 的 JSC wrapper 层保持不变</li>
+<li>按类逐个翻转 <code>impl: &quot;zig&quot; | &quot;rust&quot;</code> 标志</li>
+<li>每次翻转需通过：测试 + shadow-diff + <strong>≤2% 性能回归</strong></li>
+<li>零第三方异步运行时，使用 Bun 自有的 uSockets + ThreadPool</li>
+</ul>
+<h4 id="设计约束"><a href="#设计约束" class="headerlink" title="设计约束"></a>设计约束</h4><ul>
+<li>不依赖 <code>std::fs</code>、<code>std::net</code>——用 <code>bun_sys</code> 封装裸系统调用</li>
+<li>不使用 Tokio、Hyper、async-std</li>
+<li>每个 FFI 边界的 <code>#[repr]</code> 和布局均在编译时用静态断言校验</li>
+</ul>
+<hr>
+<h3 id="5-Burn-0-21-0：深度学习框架重大升级"><a href="#5-Burn-0-21-0：深度学习框架重大升级" class="headerlink" title="5. Burn 0.21.0：深度学习框架重大升级"></a>5. Burn 0.21.0：深度学习框架重大升级</h3><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://burn.dev/blog/release-0.21.0/">Burn Blog</a></p>
+<p>Rust 深度学习框架 Burn 发布了 0.21.0 版本，历时4个月，带来了显著性能提升。</p>
+<h4 id="亮点"><a href="#亮点" class="headerlink" title="亮点"></a>亮点</h4><ol>
+<li><p><strong>框架开销降低最多 8.2 倍</strong></p>
+<ul>
+<li>重新设计设备句柄（device handle），使用自定义通信通道替代递归互斥锁</li>
+<li>支持多工作线程流水线执行融合和 CubeCL 运行时</li>
+<li>融合模式下 overhead 降低平均 5.4倍</li>
+</ul>
+</li>
+<li><p><strong>分布式训练重大改进</strong></p>
+<ul>
+<li>重新设计可微分集合操作（differentiable collectives）</li>
+<li>设备传输加速 <strong>16-21倍</strong>（4 GPU 场景）</li>
+<li>all_reduce 加速约 <strong>6倍</strong></li>
+</ul>
+</li>
+<li><p><strong>GEMV&#x2F;Top-K 内核优化</strong></p>
+<ul>
+<li>GEMV：CUDA 上列主序与 LibTorch 持平，CPU 上超越</li>
+<li>Top-K CPU：比 LibTorch 快<strong>最高 41.8 倍</strong>（k&#x3D;1, axis&#x3D;0, large shape）</li>
+<li>采用通用内核方案而非特化配置集，性能可预测性更好</li>
+</ul>
+</li>
+<li><p><strong>burn-flex</strong>：轻量级 CPU 后端</p>
+<ul>
+<li>全 Rust 实现，无 JIT&#x2F;无融合&#x2F;无 autotune</li>
+<li>目标：WASM、嵌入式设备、小型模型推理</li>
+<li>替代 <code>burn-ndarray</code>（进入弃用路径）</li>
+</ul>
+</li>
+<li><p><strong>burn-dispatch</strong>：全局后端调度机制</p>
+<ul>
+<li>消除用户端 API 的 <code>Backend</code> 泛型参数</li>
+<li>早期实验：增量编译时间从 11秒降至 1秒以下</li>
+</ul>
+</li>
+<li><p><strong>强化学习早期支持</strong>：新增离线策略训练循环（DQN 示例可用）</p>
+</li>
+</ol>
+<hr>
+<h3 id="6-Ratty：带内联3D图形的终端模拟器"><a href="#6-Ratty：带内联3D图形的终端模拟器" class="headerlink" title="6. Ratty：带内联3D图形的终端模拟器"></a>6. Ratty：带内联3D图形的终端模拟器</h3><p><strong>作者</strong>：Orhun Parmaksız | <a target="_blank" rel="noopener" href="https://blog.orhun.dev/introducing-ratty/">原文</a></p>
+<p>灵感来自 TempleOS 的”命令行嵌入精灵”概念，Ratty 是一个 GPU 渲染的终端模拟器。</p>
+<h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>光标是旋转的 3D 老鼠模型（可自定义为任何 OBJ 模型）</li>
+<li>终端本身是 3D 画布——可以拖拽旋转视角</li>
+<li>支持插入 3D 模型和精灵到终端中</li>
+<li>兼容 Kitty Image Protocol</li>
+</ul>
+<h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PTY → 终端解析 (vt100) → Ratatui 缓冲区 → GPU 纹理 (Vello) → Bevy 3D 场景</span><br></pre></td></tr></table></figure>
+
+<h4 id="Ratty-Graphics-Protocol-RGP"><a href="#Ratty-Graphics-Protocol-RGP" class="headerlink" title="Ratty Graphics Protocol (RGP)"></a>Ratty Graphics Protocol (RGP)</h4><p>基于 APC 控制序列的自定义协议：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ESC _ ratty ; g ; &lt;verb&gt; [ ; &lt;key=value&gt; ... ] ESC \</span><br></pre></td></tr></table></figure>
+
+<p>支持四种操作：</p>
+<ul>
+<li><code>s</code>：查询支持</li>
+<li><code>r</code>：注册 3D 资产</li>
+<li><code>p</code>：放置对象到终端单元格空间</li>
+<li><code>d</code>：删除对象</li>
+</ul>
+<p>提供了 <code>ratatui-ratty</code> crate，可以直接在 Ratatui 应用中嵌入 3D 图形。</p>
+<hr>
+<h3 id="7-iroh-1-0-0-rc-0：首个-RC-版本"><a href="#7-iroh-1-0-0-rc-0：首个-RC-版本" class="headerlink" title="7. iroh 1.0.0-rc.0：首个 RC 版本"></a>7. iroh 1.0.0-rc.0：首个 RC 版本</h3><p><strong>来源</strong>：<a target="_blank" rel="noopener" href="https://www.iroh.computer/blog/iroh-1-0-0-rc-0">Iroh Blog</a></p>
+<p>Rust 模块化网络栈 iroh 经过4年开发、50+ 个版本后，发布首个 1.0 RC。</p>
+<h4 id="API-改进"><a href="#API-改进" class="headerlink" title="API 改进"></a>API 改进</h4><ul>
+<li><strong>Path 观察 API 重新设计</strong>：拆分为两个原语——<code>Connection::paths()</code> 返回借用快照，<code>Connection::path_events()</code> 返回事件流</li>
+<li><strong>IncomingLocalAddr</strong>：正确处理 relay 和自定义连接</li>
+<li><strong>Non-exhaustive 结构体&#x2F;枚举</strong>：标记 <code>#[non_exhaustive]</code> 允许未来扩展</li>
+<li>部分可选功能已移出到独立仓库（DHT&#x2F;mDNS Address Lookup → <code>iroh-address-lookups</code>）</li>
+<li>MSRV 提升至 <strong>1.91</strong></li>
+</ul>
+<hr>
+<h3 id="8-“尊重式”-YAML-补丁"><a href="#8-“尊重式”-YAML-补丁" class="headerlink" title="8. “尊重式” YAML 补丁"></a>8. “尊重式” YAML 补丁</h3><p><strong>作者</strong>：Evgeniy Terekhin | <a target="_blank" rel="noopener" href="https://verrchu.github.io/blog/2-respectful-yaml-patching-in-rust/">原文</a></p>
+<p>对不损坏原始 YAML 格式和注释的编程式编辑方案进行了系统评测。</p>
+<h4 id="评测结果"><a href="#评测结果" class="headerlink" title="评测结果"></a>评测结果</h4><table>
+<thead>
+<tr>
+<th>库</th>
+<th>保留格式</th>
+<th>保留注释</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yamlpath</code> + <code>yamlpatch</code></td>
+<td>✅</td>
+<td>⚠️ 几乎完美</td>
+<td><strong>当前最佳选择</strong></td>
+</tr>
+<tr>
+<td><code>yaml-edit</code></td>
+<td>❌ 缩进错误</td>
+<td>❌ 外层注释丢失</td>
+<td>结构损坏</td>
+</tr>
+<tr>
+<td><code>rust-yaml</code></td>
+<td>❌</td>
+<td>❌ 注释散落重复</td>
+<td>不合格</td>
+</tr>
+<tr>
+<td><code>yamp</code></td>
+<td>❌</td>
+<td>❌ 解析报错</td>
+<td>不合格</td>
+</tr>
+<tr>
+<td><code>serde_yaml</code></td>
+<td>N&#x2F;A</td>
+<td>N&#x2F;A</td>
+<td>已停止维护</td>
+</tr>
+</tbody></table>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ul>
+<li><code>Op::Replace</code> 不支持序列类型，需要用 Append+Remove 旋转替换</li>
+<li>不支持 flow-style 列表</li>
+<li>删除空分组时，分组上方的注释可能漂移到附近行</li>
+</ul>
+<hr>
+<h3 id="9-The-Embedded-Rustacean-第71期-亮点"><a href="#9-The-Embedded-Rustacean-第71期-亮点" class="headerlink" title="9. The Embedded Rustacean 第71期 亮点"></a>9. The Embedded Rustacean 第71期 亮点</h3><ul>
+<li><strong>uFerris 学习板正式发货</strong>：预连线外设的嵌入式 Rust 学习平台，支持 XIAO 系列控制器</li>
+<li><strong>Zed 发布 1.0</strong></li>
+<li><strong>Ubuntu 26.04 LTS 内置 Rust 工具</strong>：提升内存安全</li>
+<li><strong>AI 设计 RISC-V CPU</strong>：AI Agent 从零设计 RISC-V CPU</li>
+<li><strong>Rust vs C 嵌入式对比研究</strong>发布</li>
+</ul>
+<hr>
+<h2 id="Rust-项目更新"><a href="#Rust-项目更新" class="headerlink" title="Rust 项目更新"></a>Rust 项目更新</h2><h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><ul>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/148214">#148214</a>**：将 <code>Result&lt;T, Uninhabited&gt;</code> 和 <code>ControlFlow&lt;Uninhabited, T&gt;</code> 视为等价于 <code>T</code> 用于 must-use lint</li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/156173">#156173</a>**：减少全局 <code>node_id_to_def_id</code> 查找</li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/155023">#155023</a>**：引入移动表达式 <code>move($expr)</code></li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/156185">#156185</a>**：及早评估私有可见性，优化可见性计算（<code>typenum</code> crate 上最高 <strong>8%</strong> 性能提升）</li>
+</ul>
+<h3 id="标准库"><a href="#标准库" class="headerlink" title="标准库"></a>标准库</h3><ul>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/149362">#149362</a>**：添加 <code>Command::get_resolved_envs</code></li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/144537">#144537</a>**：添加 <code>Drop::pin_drop</code> 用于固定析构</li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/154025">#154025</a>**：为 <code>TcpStream</code> 添加 <code>keepalive</code>&#x2F;<code>set_keepalive</code></li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/pull/156204">#156204</a>**：实现 <code>PathBuf::into_string</code></li>
+</ul>
+<h3 id="Cargo"><a href="#Cargo" class="headerlink" title="Cargo"></a>Cargo</h3><ul>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/cargo/pull/16981">#16981</a>**：追踪 Cargo 诊断警告&#x2F;错误计数</li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/cargo/pull/16985">#16985</a>**：键入 <code>cargo rustfmt</code> 时建议 <code>cargo fmt</code></li>
+</ul>
+<h3 id="Clippy"><a href="#Clippy" class="headerlink" title="Clippy"></a>Clippy</h3><ul>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust-clippy/pull/16486">#16486</a>**：新 lint <code>inline_trait_bounds</code></li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust-clippy/pull/16617">#16617</a>**：新 lint <code>manual_clear</code></li>
+</ul>
+<h3 id="Rust-Analyzer"><a href="#Rust-Analyzer" class="headerlink" title="Rust Analyzer"></a>Rust Analyzer</h3><ul>
+<li>支持 deref 模式</li>
+<li>新增 E0436、E0529 诊断</li>
+<li>修复 <code>toggle_macro_delimiter</code> 在无关位置的提示</li>
+<li>修复异步函数中 <code>self</code> 绑定处理</li>
+<li>移除 <code>make mut</code> 功能</li>
+</ul>
+<h3 id="编译器性能"><a href="#编译器性能" class="headerlink" title="编译器性能"></a>编译器性能</h3><p><strong>总结</strong>：本周总体略微改善</p>
+<ul>
+<li>主要回归：0.3%（62个测试用例）</li>
+<li>主要改善：**-1.7%**（18个测试用例）</li>
+<li>2个回归、2个改善、5个混合</li>
+</ul>
+<hr>
+<h2 id="本期-Crate"><a href="#本期-Crate" class="headerlink" title="本期 Crate"></a>本期 Crate</h2><p><strong><a target="_blank" rel="noopener" href="https://github.com/kadir/cloakrs">cloakrs</a></strong> —— 用于检测和遮蔽个人身份信息（PII）的库和 CLI 工具。</p>
+<hr>
+<h2 id="RFC-动态"><a href="#RFC-动态" class="headerlink" title="RFC 动态"></a>RFC 动态</h2><h3 id="已批准的-RFC"><a href="#已批准的-RFC" class="headerlink" title="已批准的 RFC"></a>已批准的 RFC</h3><ul>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rfcs/pull/3931">RFC #3931</a>**：Rust 基金会维护者基金（Maintainer Fund）</li>
+<li>**<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rfcs/pull/3945">RFC #3945</a>**：Cargo 中 <code>default-features</code> 的继承</li>
+</ul>
+<h3 id="最终评论期（FCP）"><a href="#最终评论期（FCP）" class="headerlink" title="最终评论期（FCP）"></a>最终评论期（FCP）</h3><p><strong>Rust</strong>：</p>
+<ul>
+<li><code>core::ffi::c_void</code> 作为返回类型的 lint</li>
+<li><code>avr</code> 目标上 <code>c_double</code> 改为 <code>f32</code></li>
+<li>稳定化 rustdoc 的 <code>--remap-path-prefix</code></li>
+<li><code>c_variadic</code> 稳定化追踪</li>
+<li><code>Path::is_empty</code> 稳定化</li>
+<li>整数格式化到固定大小缓冲区</li>
+<li>将 <code>ambiguous_glob_imports</code> lint 部分转换为硬错误</li>
+</ul>
+<p><strong>RFC</strong>：</p>
+<ul>
+<li>crates.io 用户名身份概念提案</li>
+<li>Cargo 最小发布年龄（min publish age）</li>
+</ul>
+<hr>
+<h2 id="即将到来的活动"><a href="#即将到来的活动" class="headerlink" title="即将到来的活动"></a>即将到来的活动</h2><h3 id="重点活动"><a href="#重点活动" class="headerlink" title="重点活动"></a>重点活动</h3><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>地点</th>
+<th>活动</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5月18-23日</td>
+<td>荷兰 Utrecht</td>
+<td><strong><a target="_blank" rel="noopener" href="https://2026.rustweek.org/">RustWeek 2026</a></strong></td>
+</tr>
+<tr>
+<td>5月20日</td>
+<td>温哥华（混合）</td>
+<td>Mouse Control with Rust</td>
+</tr>
+<tr>
+<td>6月5日</td>
+<td>虚拟</td>
+<td><a target="_blank" rel="noopener" href="https://scientificcomputing.rs/2026/submit-talk"><strong>Scientific Computing in Rust 2026</strong></a> CFP 开放</td>
+</tr>
+<tr>
+<td>7月8-10日</td>
+<td>虚拟</td>
+<td>Scientific Computing in Rust 2026 会议</td>
+</tr>
+<tr>
+<td>9月8-11日</td>
+<td>加拿大蒙特利尔</td>
+<td>RustConf 2026</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="本周金句"><a href="#本周金句" class="headerlink" title="本周金句"></a>本周金句</h2><blockquote>
+<p>在 Bun 最近合并的150个 PR 中，<strong>108个是内存安全相关的</strong>——错误路径遗漏清理、use-after-free、未初始化读取、越界访问、重入。<strong>其中75个</strong>在有析构函数、移动语义和借用检查的语言中<strong>根本无法编译</strong>。我们每发布3个 PR，就有1个是”在某错误路径忘记释放”。</p>
+<p>108个中约88个在 Zig 中。约14个在 C++ 中的主要是引用循环和 GC 并发竞态——这是任何语言都难以根除的残余类别。所以 Zig→Rust 的差距是真实的：Zig 的 Bug 恰好是析构函数&#x2F;所有权可以修复的那一类，而 C++ 端已接近地板的残余类别。</p>
+<p>没有更强的编译时保证，这永远是一场猫捉老鼠的游戏。提案是从结构上消除最大的 Bug 类别，而不是无限期地逐一修复。</p>
+</blockquote>
+<p>— <strong>Jarred Sumner</strong> 在 <a target="_blank" rel="noopener" href="https://github.com/oven-sh/bun/blob/eeb4d9fdf6e9a7bdd45388d7f3a03dcf570839ad/docs/rust-rewrite-plan.md#why">Bun 的 Rust 重写计划</a>中</p>
+<hr>
+<p><em>This Week in Rust 由 nellshamrell、llogiq、ericseppanen 等人编辑。在 <a target="_blank" rel="noopener" href="https://www.reddit.com/r/rust/comments/1tcjse1/this_week_in_rust_651/">r&#x2F;rust</a> 参与讨论。</em></p>
+<p><em>中文总结由 opencode 生成，仅供参考。</em></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>This Week in Rust 651 - 深度总结</p><p><a href="https://1uciuszzz.github.io/2026/05/13/this-week-in-rust-651-summary/">https://1uciuszzz.github.io/2026/05/13/this-week-in-rust-651-summary/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>1uciuszzz</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2026-05-13</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2026-05-13</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/rust/">rust</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=645b3e893f205e001a0bac07&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/7091b65e5d1ddcbe0910fee881942ae.28i7f2ry1zwg.webp" alt="支付宝"></span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/08f055037016ad1d64199261cd35930.n3cj80xop28.webp" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2026/05/06/this-week-in-rust-650-summary/"><span class="level-item">This Week in Rust 650 - 深度总结</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card" id="comments"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: "e3648ec6fb95df755d9376ce45978d64",
+            repo: "1uciuszzz.github.io",
+            owner: "1uciuszzz",
+            clientID: "732d49a32c7a9686268a",
+            clientSecret: "57aca1c407d3120f5deb4f3170aa92a7d8f0b859",
+            admin: ["1uciuszzz"],
+            createIssueManually: false,
+            distractionFreeMode: false,
+            perPage: 20,
+            pagerDirection: "last",
+            
+            
+            enableHotKey: true,
+            language: "zh-CN",
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/50418607.5isa5e6btxo0.webp" alt="1uciuszzz"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">1uciuszzz</p><p class="is-size-6 is-block">Developer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>CN.Wuhan</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives/"><p class="title">33</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories/"><p class="title">11</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags/"><p class="title">24</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/1uciuszzz" target="_blank" rel="me noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="me noopener" title="Github" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/crypto/"><span class="level-start"><span class="level-item">crypto</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/gis/"><span class="level-start"><span class="level-item">gis</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/golang/"><span class="level-start"><span class="level-item">golang</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/new-feature-on-web-platform/"><span class="level-start"><span class="level-item">new feature on web platform</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/openwrt/"><span class="level-start"><span class="level-item">openwrt</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/react/"><span class="level-start"><span class="level-item">react</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/rust/"><span class="level-start"><span class="level-item">rust</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li><li><a class="level is-mobile" href="/categories/sql/"><span class="level-start"><span class="level-item">sql</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/webAssembly/"><span class="level-start"><span class="level-item">webAssembly</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/webgpu/"><span class="level-start"><span class="level-item">webgpu</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/wsl/"><span class="level-start"><span class="level-item">wsl</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/axums/"><span class="tag">axums</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/cesium/"><span class="tag">cesium</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/crypto/"><span class="tag">crypto</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gdal/"><span class="tag">gdal</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gis/"><span class="tag">gis</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/golang/"><span class="tag">golang</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/google-io-2023/"><span class="tag">google io 2023</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/gpu/"><span class="tag">gpu</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/minio/"><span class="tag">minio</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/new-feature/"><span class="tag">new feature</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/openwrt/"><span class="tag">openwrt</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/rust/"><span class="tag">rust</span><span class="tag">20</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sha256/"><span class="tag">sha256</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sql/"><span class="tag">sql</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ssr/"><span class="tag">ssr</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tif/"><span class="tag">tif</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tms/"><span class="tag">tms</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web/"><span class="tag">web</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web-platform/"><span class="tag">web platform</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webAssembly/"><span class="tag">webAssembly</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webgl/"><span class="tag">webgl</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/webgpu/"><span class="tag">webgpu</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/wsl/"><span class="tag">wsl</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/xiaomi-router-ac2100/"><span class="tag">xiaomi-router-ac2100</span><span class="tag">1</span></a></div></div></div></div></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#This-Week-in-Rust-651-深度总结"><span class="level-left"><span class="level-item">1</span><span class="level-item">This Week in Rust 651 - 深度总结</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#目录"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">目录</span></span></a></li><li><a class="level is-mobile" href="#社区更新"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">社区更新</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Rust-基金会：开源可持续性危机联合行动"><span class="level-left"><span class="level-item">1.2.1</span><span class="level-item">Rust 基金会：开源可持续性危机联合行动</span></span></a></li></ul></li><li><a class="level is-mobile" href="#本期精选文章"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">本期精选文章</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#1-杀死一只-Cow——我的-JSON-格式化器提速42"><span class="level-left"><span class="level-item">1.3.1</span><span class="level-item">1. 杀死一只 Cow——我的 JSON 格式化器提速42%</span></span></a></li><li><a class="level is-mobile" href="#2-mpsc-通道的隐藏内存成本"><span class="level-left"><span class="level-item">1.3.2</span><span class="level-item">2. mpsc 通道的隐藏内存成本</span></span></a></li><li><a class="level is-mobile" href="#3-构建高性能-Rust-Profiler-的经验教训"><span class="level-left"><span class="level-item">1.3.3</span><span class="level-item">3. 构建高性能 Rust Profiler 的经验教训</span></span></a></li><li><a class="level is-mobile" href="#4-Bun-的-Rust-重写计划：为什么-Zig-不够安全"><span class="level-left"><span class="level-item">1.3.4</span><span class="level-item">4. Bun 的 Rust 重写计划：为什么 Zig 不够安全</span></span></a></li><li><a class="level is-mobile" href="#5-Burn-0-21-0：深度学习框架重大升级"><span class="level-left"><span class="level-item">1.3.5</span><span class="level-item">5. Burn 0.21.0：深度学习框架重大升级</span></span></a></li><li><a class="level is-mobile" href="#6-Ratty：带内联3D图形的终端模拟器"><span class="level-left"><span class="level-item">1.3.6</span><span class="level-item">6. Ratty：带内联3D图形的终端模拟器</span></span></a></li><li><a class="level is-mobile" href="#7-iroh-1-0-0-rc-0：首个-RC-版本"><span class="level-left"><span class="level-item">1.3.7</span><span class="level-item">7. iroh 1.0.0-rc.0：首个 RC 版本</span></span></a></li><li><a class="level is-mobile" href="#8-“尊重式”-YAML-补丁"><span class="level-left"><span class="level-item">1.3.8</span><span class="level-item">8. “尊重式” YAML 补丁</span></span></a></li><li><a class="level is-mobile" href="#9-The-Embedded-Rustacean-第71期-亮点"><span class="level-left"><span class="level-item">1.3.9</span><span class="level-item">9. The Embedded Rustacean 第71期 亮点</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Rust-项目更新"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">Rust 项目更新</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#编译器"><span class="level-left"><span class="level-item">1.4.1</span><span class="level-item">编译器</span></span></a></li><li><a class="level is-mobile" href="#标准库"><span class="level-left"><span class="level-item">1.4.2</span><span class="level-item">标准库</span></span></a></li><li><a class="level is-mobile" href="#Cargo"><span class="level-left"><span class="level-item">1.4.3</span><span class="level-item">Cargo</span></span></a></li><li><a class="level is-mobile" href="#Clippy"><span class="level-left"><span class="level-item">1.4.4</span><span class="level-item">Clippy</span></span></a></li><li><a class="level is-mobile" href="#Rust-Analyzer"><span class="level-left"><span class="level-item">1.4.5</span><span class="level-item">Rust Analyzer</span></span></a></li><li><a class="level is-mobile" href="#编译器性能"><span class="level-left"><span class="level-item">1.4.6</span><span class="level-item">编译器性能</span></span></a></li></ul></li><li><a class="level is-mobile" href="#本期-Crate"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">本期 Crate</span></span></a></li><li><a class="level is-mobile" href="#RFC-动态"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">RFC 动态</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#已批准的-RFC"><span class="level-left"><span class="level-item">1.6.1</span><span class="level-item">已批准的 RFC</span></span></a></li><li><a class="level is-mobile" href="#最终评论期（FCP）"><span class="level-left"><span class="level-item">1.6.2</span><span class="level-item">最终评论期（FCP）</span></span></a></li></ul></li><li><a class="level is-mobile" href="#即将到来的活动"><span class="level-left"><span class="level-item">1.7</span><span class="level-item">即将到来的活动</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#重点活动"><span class="level-left"><span class="level-item">1.7.1</span><span class="level-item">重点活动</span></span></a></li></ul></li><li><a class="level is-mobile" href="#本周金句"><span class="level-left"><span class="level-item">1.8</span><span class="level-item">本周金句</span></span></a></li></ul></li></ul></div></div><script src="/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><figure class="media-left"><a class="image" href="/2026/05/13/this-week-in-rust-651-summary/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp" alt="This Week in Rust 651 - 深度总结"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-05-13T08:49:53.000Z">2026-05-13</time></p><p class="title"><a href="/2026/05/13/this-week-in-rust-651-summary/">This Week in Rust 651 - 深度总结</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/05/06/this-week-in-rust-650-summary/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp" alt="This Week in Rust 650 - 深度总结"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-05-06T08:49:53.000Z">2026-05-06</time></p><p class="title"><a href="/2026/05/06/this-week-in-rust-650-summary/">This Week in Rust 650 - 深度总结</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/04/29/this-week-in-rust-649-summary/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp" alt="This Week in Rust 649 - 深度总结"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-04-29T08:49:53.000Z">2026-04-29</time></p><p class="title"><a href="/2026/04/29/this-week-in-rust-649-summary/">This Week in Rust 649 - 深度总结</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/04/22/this-week-in-rust-648-summary/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp" alt="This Week in Rust 648 - 深度总结"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-04-22T08:49:53.000Z">2026-04-22</time></p><p class="title"><a href="/2026/04/22/this-week-in-rust-648-summary/">This Week in Rust 648 - 深度总结</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article><article class="media"><figure class="media-left"><a class="image" href="/2026/04/15/this-week-in-rust-647-summary/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/image.46b8oo2fg.webp" alt="This Week in Rust 647 - 深度总结"></a></figure><div class="media-content"><p class="date"><time dateTime="2026-04-15T08:49:53.000Z">2026-04-15</time></p><p class="title"><a href="/2026/04/15/this-week-in-rust-647-summary/">This Week in Rust 647 - 深度总结</a></p><p class="categories"><a href="/categories/rust/">rust</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2026/05/"><span class="level-start"><span class="level-item">五月 2026</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/04/"><span class="level-start"><span class="level-item">四月 2026</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/03/"><span class="level-start"><span class="level-item">三月 2026</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/02/"><span class="level-start"><span class="level-item">二月 2026</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile" href="/archives/2026/01/"><span class="level-start"><span class="level-item">一月 2026</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/07/"><span class="level-start"><span class="level-item">七月 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/03/"><span class="level-start"><span class="level-item">三月 2025</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2025/02/"><span class="level-start"><span class="level-item">二月 2025</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/11/"><span class="level-start"><span class="level-item">十一月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/04/"><span class="level-start"><span class="level-item">四月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2024/01/"><span class="level-start"><span class="level-item">一月 2024</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/12/"><span class="level-start"><span class="level-item">十二月 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/09/"><span class="level-start"><span class="level-item">九月 2023</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2023/05/"><span class="level-start"><span class="level-item">五月 2023</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://github.com/1uciuszzz/picx-images-hosting/raw/master/android-chrome-192x192.36lnp86ipoq0.webp" alt="lucius&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2026 1uciuszzz</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="GitHub" href="https://github.com/1uciuszzz"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
